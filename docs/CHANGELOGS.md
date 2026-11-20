@@ -2,11 +2,16 @@
 
 ## v2.1.1 (2026-11-20)
 -----------------------
-- [REFACTOR] Đổi tên toàn diện thương hiệu và định danh từ OpenKey sang MacVietKey.
-- [REFACTOR] Cập nhật Bundle Identifier thành com.360org.macvietkey và com.360org.macvietkey.helper.
-- [REFACTOR] Đồng bộ thư mục lưu trữ Application Support sang ~/Library/Application Support/MacVietKey.
-- [REFACTOR] Cập nhật toàn bộ liên kết dự án, repository và releases sang 360org/MacVietKey trên GitHub.
-- [CI] Cập nhật workflow msbuild và macos-build xuất artifact với tên MacVietKey.
+- [IDENTIFIER] Cập nhật toàn bộ hệ thống Identifier sang chuẩn VuaOffice:
+  * Application Bundle ID: `com.vuahethong.macvietkey`
+  * Helper Bundle ID: `com.vuahethong.macvietkey.helper`
+  * Đồng bộ trong `project.pbxproj`, `AppDelegate.h`, `Info.plist`, và `OpenKey.mm`.
+- [DOCS] Xây dựng trang tài liệu trực tuyến chuyên nghiệp chuẩn phong cách VuaOffice (`docs/index.html` và `docs/changelog.html`):
+  * Bảng so sánh tính năng kỹ thuật với EVKey, OpenKey cũ và Bộ gõ mặc định Apple.
+  * Hướng dẫn cài đặt và cấp quyền Accessibility trên macOS Sequoia & Sonoma.
+  * Danh mục phím tắt tiện dụng (Control+Space, Option+Z, Control+Option+C).
+- [URL] Thay thế toàn bộ địa chỉ liên kết cũ `open-key.org` sang trang tài liệu chính thức GitHub Docs.
+- [CI] Thêm GitHub Actions workflow `.github/workflows/pages.yml` tự động xuất bản GitHub Pages.
 
 ## v2.1.0 (2026-11-20)
 -----------------------

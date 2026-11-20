@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "ViewController.h"
 
-#define OPENKEY_BUNDLE @"com.360org.macvietkey"
+#define OPENKEY_BUNDLE @"com.vuahethong.macvietkey"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 

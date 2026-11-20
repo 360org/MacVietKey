@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MacVietKey — Bộ Gõ Tiếng Việt Chuẩn Mực Cho macOS | Tương Thích VuaOffice</title>
+  <meta name="description" content="MacVietKey — Bộ gõ tiếng Việt hiệu năng cao cho macOS kế thừa lõi tối ưu, tích hợp cơ chế Watchdog chống liệt phím từ EVKey, tương thích hoàn hảo macOS Sequoia & Sonoma. 100% miễn phí, mã nguồn mở, bảo trợ bởi 360 CORP và Vua Hệ Thống.">
+  <meta name="keywords" content="macvietkey, bo go tieng viet macos, openkey, evkey mac, go tieng viet macbook, sua loi go tieng viet sequoia, sua loi openkey liet phim, go tieng viet vuaoffice, 360 corp, vua he thong">
+  <meta name="author" content="360 CORP">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://360org.github.io/MacVietKey/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MacVietKey — Bộ Gõ Tiếng Việt Đỉnh Cao Cho macOS">
+  <meta property="og:description" content="Không gạch chân, không lag đơ, tích hợp Watchdog tự động phục hồi hook bàn phím khi bị macOS ngắt. Chuẩn mã nguồn mở VuaOffice.">
+  <meta property="og:url" content="https://360org.github.io/MacVietKey/">
+  <meta property="og:site_name" content="MacVietKey">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MacVietKey",
+    "operatingSystem": "macOS 11.0 Big Sur trở lên, macOS Sonoma 14, macOS Sequoia 15+",
+    "applicationCategory": "UtilitiesApplication",
+    "softwareVersion": "2.1.1",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "VND"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "360 CORP",
+      "url": "https://vuahethong.net"
+    },
+    "url": "https://360org.github.io/MacVietKey/"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1b2640;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #0077cd;
+      --primary-hover: #0088ea;
+      --accent-green: #00ce2c;
+      --accent-gradient: linear-gradient(135deg, #0077cd 0%, #00ce2c 100%);
+      --border: #222f49;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --radius: 14px;
+      --container: 1140px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a { color: #38bdf8; text-decoration: none; transition: 0.2s ease; }
+    a:hover { color: #7dd3fc; }
+
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    /* Top banner */
+    .top-bar {
+      background: linear-gradient(90deg, #0077cd 0%, #00ce2c 100%);
+      color: #fff;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .top-bar a { color: #fff; text-decoration: underline; margin-left: 8px; font-weight: 700; }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 13, 22, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .nav-links a:hover {
+      color: #fff;
+    }
+    .btn-header {
+      background: var(--primary);
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .btn-header:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 20%, rgba(0, 119, 205, 0.15) 0%, rgba(9, 13, 22, 0) 70%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 119, 205, 0.12);
+      border: 1px solid rgba(0, 119, 205, 0.3);
+      padding: 6px 16px;
+      border-radius: 999px;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .hero h1 span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 780px;
+      margin: 0 auto 36px;
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent-gradient);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px -5px rgba(0, 119, 205, 0.4);
+      transition: 0.2s transform, 0.2s box-shadow;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(0, 119, 205, 0.5);
+      color: #fff;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 14px 26px;
+      border-radius: 10px;
+    }
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      color: #fff;
+    }
+
+    /* System Stats Grid */
+    .stats-bar {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: var(--radius);
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Features Grid */
+    .section {
+      padding: 80px 0;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .section-title h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .section-title p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      transition: 0.2s transform, 0.2s border-color;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 119, 205, 0.5);
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(0, 119, 205, 0.15);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Comparison Table */
+    .table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 15px;
+    }
+    th, td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: rgba(255, 255, 255, 0.02);
+      font-weight: 700;
+      color: #fff;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .badge-check {
+      display: inline-block;
+      color: var(--accent-green);
+      font-weight: 700;
+    }
+    .badge-cross {
+      display: inline-block;
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    /* Shortcuts Section */
+    .shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .shortcut-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .shortcut-keys {
+      display: flex;
+      gap: 6px;
+    }
+    kbd {
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: #f1f5f9;
+      box-shadow: 0 2px 0 #0f172a;
+    }
+
+    /* Guide Section */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .step-item {
+      display: flex;
+      gap: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: var(--radius);
+    }
+    .step-number {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-content h4 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .step-content p {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-light);
+      padding: 60px 0 40px;
+      background: #060910;
+      margin-top: 80px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col h5 {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 10px;
+    }
+    .footer-col a {
+      color: var(--text-muted);
+    }
+    .footer-col a:hover {
+      color: #fff;
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero h1 { font-size: 38px; }
+      .features-grid, .stats-bar, .shortcuts-grid, .footer-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    🚀 MacVietKey v2.1.1 đã phát hành: Sửa triệt để lỗi ngắt phím gõ tiếng Việt trên macOS Sequoia &amp; Sonoma!
+    <a href="changelog.html">Xem ghi chú phát hành &rarr;</a>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#brandGrad)"/>
+          <path d="M9 10L16 22L23 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18H20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="brandGrad" x1="0" y1="0" x2="32" y2="32">
+              <stop stop-color="#0077cd"/>
+              <stop offset="1" stop-color="#00ce2c"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>MacVietKey</span>
+        <span class="brand-badge">VUAOFFICE SUITE</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">Tính Năng</a>
+        <a href="#shortcuts">Phím Tắt</a>
+        <a href="#comparison">So Sánh</a>
+        <a href="#install">Cài Đặt</a>
+        <a href="changelog.html">Lịch Sử Cập Nhật</a>
+        <a href="https://github.com/360org/MacVietKey" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://vuaoffice.com" target="_blank" rel="noopener">VuaOffice</a>
+      </nav>
+      <a href="https://github.com/360org/MacVietKey/releases" class="btn-header">Tải Về Miễn Phí</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span>🛡️</span> Bộ Gõ Tiếng Việt Chuẩn Mực Cho macOS 2026
+      </div>
+      <h1>Bộ Gõ Tiếng Việt <span>Không Lỗi Phím</span><br>Tối Ưu Hoàn Hảo Cho Mac</h1>
+      <p>
+        MacVietKey kế thừa lõi xử lý ký tự tốc độ cao, bổ sung cơ chế Watchdog đa tầng tự phục hồi hook bàn phím khi macOS ngắt luồng. Không lỗi gạch chân, không lag đơ trên Chrome, Spotlight, tương thích 100% hệ sinh thái VuaOffice.
+      </p>
+      <div class="hero-actions">
+        <a href="https://github.com/360org/MacVietKey/releases/latest" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Tải MacVietKey Cho macOS (.zip)
+        </a>
+        <a href="#install" class="btn-secondary">
+          <span>📖</span> Hướng Dẫn Cài Đặt
+        </a>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Miễn Phí &amp; Mã Nguồn Mở</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">0.0 ms</div>
+          <div class="stat-label">Không Độ Trễ Phím (Zero-IPC)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">1 Giây</div>
+          <div class="stat-label">Watchdog Tự Sửa Lỗi Ngắt Hook</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5+ Bảng Mã</div>
+          <div class="stat-label">Unicode, TCVN3, VNI Windows...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Công Nghệ Đột Phá &amp; Trải Nghiệm Mượt Mà</h2>
+        <p>Giải quyết triệt để tất cả các căn bệnh kinh niên của các bộ gõ tiếng Việt cũ trên macOS.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Watchdog Tự Phục Hồi EventTap</h3>
+          <p>Tích hợp bộ giám sát ngầm chạy chu kỳ 1.0 giây mượn từ EVKey. Khi macOS tự động tắt hook bàn phím do timeout hệ thống, MacVietKey lập tức kích hoạt lại ngay lập tức.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Tối Ưu Zero-IPC Fast-Path</h3>
+          <p>Loại bỏ hoàn toàn lệnh gọi quét toàn bộ cửa sổ hệ thống ở mỗi phím gõ. Triệt tiêu 100% hiện tượng khựng, đơ phím khi đang tìm kiếm trên Spotlight hay duyệt web.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⌨️</div>
+          <h3>Phím Tắt Nhạy &amp; Bền Vững</h3>
+          <p>Xử lý khớp cờ phím tức thời trên mã sự kiện thực tế, đảm bảo tổ hợp phím chuyển ngôn ngữ và mở bảng điều khiển luôn hoạt động chính xác mọi lúc.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>Đầy Đủ Kiểu Gõ &amp; Bảng Mã</h3>
+          <p>Hỗ trợ đầy đủ Telex, VNI, Simple Telex; các bảng mã tiêu chuẩn Unicode dựng sẵn, Unicode tổ hợp, TCVN3 (ABC), VNI Windows và Vietnamese Locale CP 1258.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Tương Thích Mọi Trình Duyệt</h3>
+          <p>Xử lý chuyên sâu cho Chrome, Brave, Edge, Safari và Spotlight: không nuốt chữ, không bị gợi ý từ làm đảo lộn ký tự tiếng Việt.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏢</div>
+          <h3>Bộ Nhận Diện VuaOffice Chuẩn</h3>
+          <p>Áp dụng định danh chuẩn <code>com.vuahethong.macvietkey</code>, đồng bộ hệ sinh thái phần mềm văn phòng VuaOffice và hạ tầng 360 CORP.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="section" id="comparison" style="background: rgba(19, 27, 46, 0.4);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Bảng So Sánh Với Các Bộ Gõ Tiếng Việt Khác</h2>
+        <p>Kiểm chứng sự vượt trội của MacVietKey so với bộ gõ mặc định của macOS, OpenKey cũ và EVKey.</p>
+      </div>
+
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Tiêu Chí Kỹ Thuật</th>
+              <th>MacVietKey (v2.1.1)</th>
+              <th>Bộ Gõ Mặc Định macOS</th>
+              <th>OpenKey Cũ</th>
+              <th>EVKey Mac</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hiện tượng gạch chân khi gõ</strong></td>
+              <td><span class="badge-check">✓ Không gạch chân</span></td>
+              <td><span class="badge-cross">✗ Rất khó chịu</span></td>
+              <td><span class="badge-check">✓ Không gạch chân</span></td>
+              <td><span class="badge-check">✓ Không gạch chân</span></td>
+            </tr>
+            <tr>
+              <td><strong>Tự phục hồi khi bị ngắt EventTap trên Sequoia</strong></td>
+              <td><span class="badge-check">✓ Watchdog tự kích hoạt lại</span></td>
+              <td>Không áp dụng</td>
+              <td><span class="badge-cross">✗ Liệt phím, phải bật lại app</span></td>
+              <td><span class="badge-check">✓ Có Watchdog</span></td>
+            </tr>
+            <tr>
+              <td><strong>Độ nhạy phím tắt (Control+Space / Option+Z)</strong></td>
+              <td><span class="badge-check">✓ Nhạy 100% không trượt</span></td>
+              <td>Khá nhạy</td>
+              <td><span class="badge-cross">✗ Hay bị trôi cờ phím</span></td>
+              <td>Khá nhạy</td>
+            </tr>
+            <tr>
+              <td><strong>Tốc độ khi gõ trên Spotlight / Web</strong></td>
+              <td><span class="badge-check">✓ Siêu tốc (Zero-IPC)</span></td>
+              <td>Bình thường</td>
+              <td><span class="badge-cross">✗ Giật lag do duyệt Window</span></td>
+              <td>Tốt</td>
+            </tr>
+            <tr>
+              <td><strong>Mã nguồn mở &amp; Minh bạch bảo mật</strong></td>
+              <td><span class="badge-check">✓ 100% Open Source (GPL)</span></td>
+              <td>Đóng</td>
+              <td><span class="badge-check">✓ Open Source</span></td>
+              <td><span class="badge-cross">✗ Mã nguồn đóng</span></td>
+            </tr>
+            <tr>
+              <td><strong>Tương thích bộ VuaOffice Suite</strong></td>
+              <td><span class="badge-check">✓ Tương thích 100%</span></td>
+              <td>Cơ bản</td>
+              <td>Cơ bản</td>
+              <td>Cơ bản</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shortcuts Section -->
+  <section class="section" id="shortcuts">
+    <div class="container">
+      <div class="section-title">
+        <h2>Phím Tắt Tiện Dụng</h2>
+        <p>Tuỳ biến linh hoạt các tổ hợp phím tắt để tăng tốc độ soạn thảo văn bản hàng ngày.</p>
+      </div>
+
+      <div class="shortcuts-grid">
+        <div class="shortcut-card">
+          <div>
+            <strong>Chuyển đổi Anh &harr; Việt</strong>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Chuyển nhanh chế độ gõ mà không cần click chuột vào menu bar.</p>
+          </div>
+          <div class="shortcut-keys">
+            <kbd>Control</kbd> + <kbd>Space</kbd>
+          </div>
+        </div>
+
+        <div class="shortcut-card">
+          <div>
+            <strong>Mở Bảng Điều Khiển</strong>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Hiển thị giao diện cấu hình kiểu gõ, bảng mã và tuỳ chọn nâng cao.</p>
+          </div>
+          <div class="shortcut-keys">
+            <kbd>Option</kbd> + <kbd>Z</kbd>
+          </div>
+        </div>
+
+        <div class="shortcut-card">
+          <div>
+            <strong>Chuyển Mã Nhanh (Clipboard)</strong>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Chuyển mã văn bản trong bộ nhớ tạm giữa TCVN3, VNI và Unicode.</p>
+          </div>
+          <div class="shortcut-keys">
+            <kbd>Control</kbd> + <kbd>Option</kbd> + <kbd>C</kbd>
+          </div>
+        </div>
+
+        <div class="shortcut-card">
+          <div>
+            <strong>Tạm tắt kiểm tra chính tả</strong>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Bấm phím Control để tạm dừng kiểm tra chính tả khi gõ mã code hoặc tiếng nước ngoài.</p>
+          </div>
+          <div class="shortcut-keys">
+            <kbd>Control</kbd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Guide Section -->
+  <section class="section" id="install" style="background: rgba(19, 27, 46, 0.4);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Hướng Dẫn Cài Đặt &amp; Cấp Quyền Trên macOS</h2>
+        <p>Thực hiện các bước đơn giản dưới đây để MacVietKey có thể điều khiển bàn phím hệ thống.</p>
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Tải về và chép vào thư mục Applications</h4>
+            <p>Tải tệp nén <code>MacVietKey-macOS.zip</code> từ mục Releases. Giải nén và kéo tệp <code>MacVietKey.app</code> vào thư mục <code>/Applications</code> của máy Mac.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Cấp quyền Trợ năng (Accessibility)</h4>
+            <p>Mở <strong>Cài đặt hệ thống (System Settings)</strong> &rarr; <strong>Quyền riêng tư &amp; Bảo mật (Privacy &amp; Security)</strong> &rarr; <strong>Trợ năng (Accessibility)</strong>. Gạt bật cho phép <code>MacVietKey</code>.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Tắt bộ gõ tiếng Việt mặc định của Apple</h4>
+            <p>Vào <strong>Cài đặt hệ thống</strong> &rarr; <strong>Bàn phím (Keyboard)</strong> &rarr; <strong>Nguồn nhập (Input Sources)</strong>. Nhấn Sửa (Edit) và xoá các bộ gõ tiếng Việt cũ của Apple (như Telex hay Simple Telex) để tránh xung đột hai bộ gõ cùng lúc.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Khởi chạy MacVietKey và tận hưởng</h4>
+            <p>Biểu tượng chữ <strong>V</strong> màu xanh sẽ xuất hiện trên thanh Menu Bar. Bạn có thể nhấn chuột vào biểu tượng để chọn bảng mã Unicode, kiểu gõ Telex và bắt đầu soạn thảo!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand" style="margin-bottom: 16px;">
+            <span>MacVietKey</span>
+          </div>
+          <p style="line-height: 1.7; max-width: 400px;">
+            Bộ gõ tiếng Việt mã nguồn mở tối ưu cho hệ điều hành macOS. Phát triển và bảo trợ bởi <strong>360 CORP</strong> và <strong>VUA HỆ THỐNG</strong>. Kế thừa các tinh hoa từ OpenKey và EVKey.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>Liên Kết Nhanh</h5>
+          <ul>
+            <li><a href="#features">Tính năng nổi bật</a></li>
+            <li><a href="#shortcuts">Bảng phím tắt</a></li>
+            <li><a href="#install">Hướng dẫn cài đặt</a></li>
+            <li><a href="changelog.html">Lịch sử cập nhật</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Hệ Sinh Thái 360 CORP</h5>
+          <ul>
+            <li><a href="https://vuaoffice.com" target="_blank" rel="noopener">VuaOffice — Bộ Ứng Dụng Văn Phòng AI</a></li>
+            <li><a href="https://vuahethong.net" target="_blank" rel="noopener">Vua Hệ Thống — Chuyển Đổi Số Doanh Nghiệp</a></li>
+            <li><a href="https://github.com/360org/MacVietKey" target="_blank" rel="noopener">Kho mã nguồn GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 360 CORP &amp; VUA HỆ THỐNG. Bản quyền mã nguồn mở theo giấy phép GPL.
+        </div>
+        <div>
+          Mã định danh: <code>com.vuahethong.macvietkey</code>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

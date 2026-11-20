@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch Sử Cập Nhật & Ghi Chú Phát Hành — MacVietKey</title>
+  <meta name="description" content="Lịch sử các phiên bản phát hành, danh sách bản vá và tính năng mới của bộ gõ tiếng Việt MacVietKey cho macOS.">
+  <link rel="canonical" href="https://360org.github.io/MacVietKey/changelog.html">
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1b2640;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #0077cd;
+      --accent-green: #00ce2c;
+      --accent-gradient: linear-gradient(135deg, #0077cd 0%, #00ce2c 100%);
+      --border: #222f49;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --radius: 14px;
+      --container: 960px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { color: #7dd3fc; }
+
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 13, 22, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 500;
+      margin-left: 20px;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .page-header {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 50px;
+    }
+    .page-header h1 {
+      font-size: 38px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 17px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin-bottom: 80px;
+    }
+    .release-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .release-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .version-tag {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-latest {
+      background: var(--accent-green);
+      color: #064e3b;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .release-date {
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .changes-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .changes-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .tag-fix { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .tag-new { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .tag-refactor { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .tag-improve { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); }
+
+    footer {
+      border-top: 1px solid var(--border-light);
+      padding: 40px 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#brandGrad)"/>
+          <path d="M9 10L16 22L23 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18H20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="brandGrad" x1="0" y1="0" x2="32" y2="32">
+              <stop stop-color="#0077cd"/>
+              <stop offset="1" stop-color="#00ce2c"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>MacVietKey</span>
+        <span class="brand-badge">DOCS</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">&larr; Trang Chủ</a>
+        <a href="https://github.com/360org/MacVietKey/releases" target="_blank" rel="noopener">Tải Về</a>
+        <a href="https://github.com/360org/MacVietKey" target="_blank" rel="noopener">GitHub Repo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Lịch Sử Cập Nhật &amp; Ghi Chú Phát Hành</h1>
+      <p>Tổng hợp chi tiết các phiên bản nâng cấp, sửa lỗi bảo mật, cải tiến hiệu năng và mở rộng tính năng của MacVietKey.</p>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Version 2.1.1 -->
+      <article class="release-card">
+        <div class="release-header">
+          <div class="version-tag">
+            <span>v2.1.1</span>
+            <span class="badge-latest">MỚI NHẤT</span>
+          </div>
+          <div class="release-date">Phát hành: 20 Tháng 11, 2026</div>
+        </div>
+        <ul class="changes-list">
+          <li>
+            <span class="tag tag-refactor">REFACTOR</span>
+            <span><strong>Đồng bộ bộ Identifier chuẩn VuaOffice</strong>: Chuyển đổi toàn bộ Bundle Identifier thành <code>com.vuahethong.macvietkey</code> và <code>com.vuahethong.macvietkey.helper</code> theo tiêu chuẩn hệ thống 360 CORP.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">NEW</span>
+            <span><strong>Xây dựng trang tài liệu trực tuyến chuyên nghiệp</strong>: Cung cấp hệ thống tài liệu HTML đầy đủ tại <code>docs/index.html</code> và <code>docs/changelog.html</code> với giao diện hiện đại tương đồng VuaOffice.com.</span>
+          </li>
+          <li>
+            <span class="tag tag-refactor">REFACTOR</span>
+            <span><strong>Thay thế toàn bộ liên kết open-key.org</strong>: Trỏ toàn bộ các liên kết trang chủ, cập nhật và mã nguồn sang kho lưu trữ và trang tài liệu chính thức trên GitHub.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">CI/CD</span>
+            <span><strong>Thiết lập GitHub Pages Automation</strong>: Thêm workflow tự động triển khai trang tài liệu khi có thay đổi trên nhánh chính.</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Version 2.1.0 -->
+      <article class="release-card">
+        <div class="release-header">
+          <div class="version-tag">
+            <span>v2.1.0</span>
+          </div>
+          <div class="release-date">Phát hành: 20 Tháng 11, 2026</div>
+        </div>
+        <ul class="changes-list">
+          <li>
+            <span class="tag tag-fix">FIX</span>
+            <span><strong>Khắc phục triệt để lỗi ngắt EventTap trên macOS Sequoia &amp; Sonoma</strong>: Hệ điều hành tự động ngắt hook bàn phím khi timeout; MacVietKey lập tức đón nhận sự kiện <code>kCGEventTapDisabledByTimeout</code> và kích hoạt lại ngay tức thì.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">NEW</span>
+            <span><strong>Tích hợp cơ chế Watchdog đa tầng từ EVKey</strong>: Bộ định thời GCD Dispatch Timer chu kỳ 1.0 giây kiểm tra trạng thái <code>CGEventTapIsEnabled</code>, tự động phục hồi bàn phím khi bị hệ thống vô hiệu hoá ngầm.</span>
+          </li>
+          <li>
+            <span class="tag tag-improve">PERF</span>
+            <span><strong>Triệt tiêu độ trễ phím (Zero-IPC Fast Path)</strong>: Loại bỏ hoàn toàn lệnh gọi <code>CGWindowListCopyWindowInfo</code> trên mỗi phím bấm trong hàm kiểm tra Spotlight, xoá bỏ hiện tượng giật/lag gõ chữ trên Chrome và Safari.</span>
+          </li>
+          <li>
+            <span class="tag tag-fix">FIX</span>
+            <span><strong>Khắc phục lỗi phím tắt chuyển ngôn ngữ</strong>: Kiểm tra trực tiếp cờ sự kiện <code>_flag</code> của hệ thống thay vì phụ thuộc biến cờ trung gian dễ bị reset trong sự kiện KeyDown.</span>
+          </li>
+          <li>
+            <span class="tag tag-fix">FIX</span>
+            <span><strong>Vá lỗi rò rỉ bộ nhớ CoreFoundation</strong>: Loại bỏ lệnh gọi <code>CFRelease(langRef)</code> dư thừa trong hàm kiểm tra ngôn ngữ bàn phím.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">TEST</span>
+            <span><strong>Bổ sung bộ 10 test cases độc lập</strong>: Bao phủ toàn diện xử lý Telex, dấu tiếng Việt, phụ âm đôi đ, phím z phục hồi từ, chuyển đổi bảng mã và cơ chế Watchdog.</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Version 2.0.3 -->
+      <article class="release-card">
+        <div class="release-header">
+          <div class="version-tag">
+            <span>v2.0.3</span>
+          </div>
+          <div class="release-date">Phát hành: Trước sáp nhập</div>
+        </div>
+        <ul class="changes-list">
+          <li>
+            <span class="tag tag-improve">LEGACY</span>
+            <span>Nền tảng mã nguồn OpenKey nguyên bản với cơ chế gõ lùi Backspace, hỗ trợ các bảng mã và kiểu gõ cơ bản.</span>
+          </li>
+        </ul>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; 2026 360 CORP &amp; VUA HỆ THỐNG. MacVietKey Identifier: <code>com.vuahethong.macvietkey</code>
+    </div>
+  </footer>
+
+</body>
+</html>
