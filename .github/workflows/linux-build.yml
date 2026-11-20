@@ -1,14 +1,19 @@
-name: Linux (Ubuntu) Build & Test
+name: Linux (Ubuntu) Build & Release
 
 on:
   push:
     branches: [ "master" ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: write
+
 jobs:
-  test-linux:
-    name: Ubuntu 22.04 / 24.04 Engine Test
+  build-linux:
+    name: Ubuntu 22.04 / 24.04 Engine & Package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +23,7 @@ jobs:
 
       - name: Build and Run Vietnamese Engine Test Suite
         run: |
-          clang++ -std=c++14 \
+          clang++ -std=c++14 -DLINUX \
             tests/test_vietnamese_engine.cpp \
             Sources/MacVietKey/engine/Engine.cpp \
             Sources/MacVietKey/engine/Vietnamese.cpp \
@@ -26,6 +31,26 @@ jobs:
             Sources/MacVietKey/engine/SmartSwitchKey.cpp \
             Sources/MacVietKey/engine/ConvertTool.cpp \
             -I Sources/MacVietKey/engine \
-            -I Sources/MacVietKey/engine/platforms \
-            -o tests/linux_test_runner
-          ./tests/linux_test_runner
+            -o tests/macvietkey-linux-cli
+          ./tests/macvietkey-linux-cli
+
+      - name: Package Linux Release Tarball
+        run: |
+          mkdir -p release_linux/bin release_linux/include
+          cp tests/macvietkey-linux-cli release_linux/bin/
+          cp -R Sources/MacVietKey/engine/*.h release_linux/include/
+          cp README.md LICENSE release_linux/
+          tar -czvf MacVietKey-v2.2.0-linux-x86_64.tar.gz -C release_linux .
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MacVietKey-linux
+          path: MacVietKey-v2.2.0-linux-x86_64.tar.gz
+
+      - name: Upload Linux Asset to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            MacVietKey-v2.2.0-linux-x86_64.tar.gz

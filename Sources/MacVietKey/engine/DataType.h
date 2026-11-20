@@ -80,7 +80,7 @@ struct vKeyHookState {
     vector<Uint32> macroData; //used for macro function; it is keycode data
 };
 
-#ifdef LINUX
+#if defined(LINUX) || defined(__linux__)
 #include "platforms/linux.h"
 #elif _WIN32
 #include "platforms/win32.h"
