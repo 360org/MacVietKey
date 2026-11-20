@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1130"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "237559B12204156000FB8CB9"
-               BuildableName = "OpenKeyHelper.app"
-               BlueprintName = "OpenKeyHelper"
-               ReferencedContainer = "container:OpenKey.xcodeproj">
+               BlueprintIdentifier = "2397059023143266002DDEA7"
+               BuildableName = "MacVietKeyUpdate.app"
+               BlueprintName = "MacVietKeyUpdate"
+               ReferencedContainer = "container:MacVietKey.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,17 +27,19 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "237559B12204156000FB8CB9"
-            BuildableName = "OpenKeyHelper.app"
-            BlueprintName = "OpenKeyHelper"
-            ReferencedContainer = "container:OpenKey.xcodeproj">
+            BlueprintIdentifier = "2397059023143266002DDEA7"
+            BuildableName = "MacVietKeyUpdate.app"
+            BlueprintName = "MacVietKeyUpdate"
+            ReferencedContainer = "container:MacVietKey.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <Testables>
-      </Testables>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Release"
@@ -53,12 +55,14 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "237559B12204156000FB8CB9"
-            BuildableName = "OpenKeyHelper.app"
-            BlueprintName = "OpenKeyHelper"
-            ReferencedContainer = "container:OpenKey.xcodeproj">
+            BlueprintIdentifier = "2397059023143266002DDEA7"
+            BuildableName = "MacVietKeyUpdate.app"
+            BlueprintName = "MacVietKeyUpdate"
+            ReferencedContainer = "container:MacVietKey.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -70,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "237559B12204156000FB8CB9"
-            BuildableName = "OpenKeyHelper.app"
-            BlueprintName = "OpenKeyHelper"
-            ReferencedContainer = "container:OpenKey.xcodeproj">
+            BlueprintIdentifier = "2397059023143266002DDEA7"
+            BuildableName = "MacVietKeyUpdate.app"
+            BlueprintName = "MacVietKeyUpdate"
+            ReferencedContainer = "container:MacVietKey.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

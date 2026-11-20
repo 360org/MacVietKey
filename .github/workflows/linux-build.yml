@@ -1,0 +1,30 @@
+name: Linux (Ubuntu) Build & Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  test-linux:
+    name: Ubuntu 22.04 / 24.04 Engine Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Build Tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential clang
+
+      - name: Build and Run Vietnamese Engine Test Suite
+        run: |
+          clang++ -std=c++14 \
+            tests/test_vietnamese_engine.cpp \
+            Sources/MacVietKey/engine/Engine.cpp \
+            Sources/MacVietKey/engine/Vietnamese.cpp \
+            Sources/MacVietKey/engine/Macro.cpp \
+            Sources/MacVietKey/engine/SmartSwitchKey.cpp \
+            Sources/MacVietKey/engine/ConvertTool.cpp \
+            -I Sources/MacVietKey/engine \
+            -o tests/linux_test_runner
+          ./tests/linux_test_runner

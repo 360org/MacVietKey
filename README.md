@@ -1,105 +1,50 @@
-
-# [MacVietKey](https://github.com/360org/MacVietKey)
+# [MacVietKey](https://360org.github.io/MacVietKey/)
 ### [Download bản mới nhất](https://github.com/360org/MacVietKey/releases)
-[![GitHub release](https://img.shields.io/github/v/release/tuyenvm/MacVietKey.svg)](https://github.com/360org/MacVietKey/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/360org/MacVietKey.svg)](https://github.com/360org/MacVietKey/releases/latest)
+[![macOS Build & Release](https://github.com/360org/MacVietKey/actions/workflows/macos-build.yml/badge.svg)](https://github.com/360org/MacVietKey/actions/workflows/macos-build.yml)
+[![Linux (Ubuntu) Build & Test](https://github.com/360org/MacVietKey/actions/workflows/linux-build.yml/badge.svg)](https://github.com/360org/MacVietKey/actions/workflows/linux-build.yml)
 
-### Open source Vietnamese Input App for macOS - Bộ gõ tiếng Việt nguồn mở cho macOS.
-Bộ gõ tiếng Việt mới cho macOS, sử dụng kỹ thuật `Backspace`. Loại bỏ lỗi gạch chân khó chịu ở bộ gõ mặc định. Hoàn toàn miễn phí và là nguồn mở, luôn cập nhật và phát triển.
+### Bộ gõ tiếng Việt chuẩn mực cho macOS — Hệ sinh thái VuaOffice (360 CORP)
+MacVietKey là bộ gõ tiếng Việt mã nguồn mở tối ưu cho macOS, kế thừa nền tảng xử lý phím tốc độ cao, tích hợp cơ chế **Watchdog đa tầng** tự động phục hồi hook khi bị macOS ngắt, và tối ưu **Zero-IPC Fast-Path** triệt tiêu độ trễ phím gõ trên Spotlight, Chrome và Safari.
 
-### Mã nguồn của ứng dụng được mở công khai, minh bạch dưới giấy phép GPL. Điều này nghĩa là bạn hoàn toàn có thể tải mã nguồn về tự build, cải tiến theo mục đích của bạn. Nếu bạn tái phân phối bản cải tiến của bạn, thì nó cũng phải là mã nguồn mở và thông báo bản gốc là MacVietKey.
+**Hỗ trợ kiến trúc Universal Binary:** Tương thích bản địa (Native) 100% trên cả **Apple Silicon (M1/M2/M3/M4, arm64)** và **Mac Intel (x86_64)** từ macOS 11 Big Sur đến macOS 14 Sonoma và macOS 15+ Sequoia. Đồng thời hỗ trợ đa nền tảng **Windows** và **Linux (Ubuntu)**.
 
-### Lưu ý, khi sử dụng MacVietKey, bạn nên tắt hẳn bộ gõ khác vì 2 chương trình bộ gõ sẽ xung đột nhau, dẫn đến thao tác không chính xác.
+---
 
-![Giao diện](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-main-control.png "Main UI")
-![Giao diện](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-main-control-2.png "Main UI")
-![Giao diện](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-main-control-3.png "Main UI")
-![Menu](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-small-control.png "Menu bar")
-![Gõ tắt](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-macro.png "Macro")
-![Chuyển mã](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-convert-tool.png "ConvertTool")
+## ⚡ Cài đặt nhanh qua Homebrew
 
-## Hỗ trợ kiểu gõ
-- Telex
-- VNI
-- Simple Telex
+Cài đặt trực tiếp qua lệnh Homebrew Cask:
 
-## Bảng mã thông dụng:
-- Unicode (Unicode dựng sẵn).
-- TCVN3 (ABC).
-- VNI Windows.
-- Unicode Compound (Unicode tổ hợp).
-- Vietnamese Locale CP 1258.
-- ...
-
-## Tính năng:
-- **Modern orthography** (On/Off) - Đặt dấu oà, uý thay vì òa, úy.
-- **Quick Telex** (On/Off) - Gõ nhanh (cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, tt=th).
-- **Grammar check** (On/Off) - Kiểm tra ngữ pháp.
-- **Spelling check** (On/Off) - Kiểm tra chính tả.
-- **Restore key if invalid word** (on/off) - Phục hồi phím với từ sai.
-- **Run on startup** (On/Off) - Chạy cùng macOS.
-- **Gray menu bar icon** (On/Off) - Biểu tượng xám trên thanh menu phù hợp với chế độ Dark mode.
-- **Switch input mode by shortcut key** - Đổi chế độ gõ bằng phím tắt tùy chọn.
-- **Autocorrect fixed** (On/Off) - Sửa lỗi autocorrect trên trình duyệt như Chrome, Safari, Firefox, Microsoft Excel.
-- **Underline issue fixed on macOS** (On/Off) - Sửa lỗi gạch chân trên macOS.
-- **Tạm tắt kiểm tra chính tả bằng phím Ctrl** (On/Off) (Bản 1.5 về sau).
-- **Tạm tắt MacVietKey bằng phím Cmd/Alt** (On/Off) (Bản 2.0.1 về sau).
-- **Cho phép dùng f z w j làm phụ âm đầu** (On/Off) (Bản 1.5 về sau).
-- **Gõ tắt phụ âm đầu: f->ph, j->gi, w->qu** (On/Off) (Bản 1.6 về sau).
-- **Gõ tắt phụ âm cuối: g->ng, h->nh, k->ch** (On/Off) (Bản 1.6 về sau).
-- **Hiện biểu tượng trên thanh Dock** (On/Off) (Bản 2.0.1 về sau). Bấm vào icon trên thanh Dock sẽ mở nhanh Bảng điều khiển.
-- **Macro** - Tính năng gõ tắt vô cùng tiện lợi. Gõ tắt của macOS chỉ hỗ trợ 20 ký tự, còn MacVietKey không giới hạn ký tự.
-- **Chuyển chế độ thông minh:** (On/Off) (Bản 1.2 về sau) - Bạn đang dùng chế độ gõ Tiếng Việt trên ứng dụng A, bạn chuyển qua ứng dụng B trước đó bạn dùng chế độ gõ Tiếng Anh, MacVietKey sẽ tự động chuyển qua chế độ gõ Tiếng Anh cho bạn, khi bạn quay lại ứng dụng A, MacVietKey tất nhiên sẽ chuyển lại chế độ gõ tiếng Việt, rất cơ động.
-- **Viết Hoa chữ cái đầu câu** (On/Off) (Bản 1.2 về sau) - Khi gõ văn bản dài, đôi khi bạn quên ghi hoa chữ cái đầu câu khi kết thúc một câu hoặc khi xuống hàng, tính năng này sẽ tự ghi hoa chữ cái đầu câu cho bạn, thật tuyệt vời.
-- **Chế độ “Gửi từng phím”:** (On/Off) (Bản 1.1 về sau) mặc định dùng kỹ thuật mới gửi dữ liệu 1 lần thay vì gửi nhiều lần cho chuỗi ký tự, nên nếu có ứng dụng nào không tương thích, hãy bật tính năng này lên, mặc định thì nên tắt vì kỹ thuật mới sẽ chạy nhanh hơn.
-- **Cập nhật tự động:** (Bản 1.3 về sau) tính năng hỗ trợ cập nhật phiên bản MacVietKey mới nhất mỗi khi mở MacVietKey hoặc tự check trong phần mục Giới thiệu.
-- **Công cụ chuyển mã:** (Bản 1.4 về sau) hỗ trợ chuyển mã qua lại văn bản, thích hợp cho việc chuyển đổi văn bản cũ viết bằng VNI, TCVN3 qua Unicode,... Hỗ trợ cấu hình phím tắt chuyển mã nhanh, bảng cấu hình tùy chọn chuyển mã.
-- **Tự ghi nhớ bảng mã theo ứng dụng:** (Bản 2.0.1 về sau) Phù hợp cho các bạn dùng Photoshop, CAD,... với các bảng mã VNI, TCVN3. MacVietKey tự ghi nhớ ứng dụng nào dùng bảng mã nào để lần sau sử dụng Photoshop, CAD,... MacVietKey có thể tự chuyển sang bảng mã đó.
-- ...
-
-
-[Changelog](https://github.com/360org/MacVietKey/blob/master/CHANGELOG.md)
-
-## Cài đặt:
-**Cài đặt thủ công:**  
-Tải bản MacVietKey mới nhất từ [đây](https://github.com/360org/MacVietKey/releases/latest), mở file `dmg` ra rồi kéo thả `MacVietKey.app` vào thư mục `Application`.
-
-**Cài bằng Homebrew:** (by nhymxu)  
-Nếu chưa cài Homebrew, mở terminal, nhập:
-```
-$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```bash
+brew install --cask https://raw.githubusercontent.com/360org/MacVietKey/master/Casks/macvietkey.rb
 ```
 
-Kiểm tra phiên bản MacVietKey:
-```
-$ brew info --cask openkey
-```
-Gõ lệnh sau để homebrew tự cài MacVietKey cho bạn:
-```
-$ brew install --cask openkey
-```
+Hoặc tải file cài đặt trực tiếp:
+- **macOS Universal (.zip):** [MacVietKey-v2.2.0-macOS.zip](https://github.com/360org/MacVietKey/releases/latest)
 
-Để update phiên bản mới nhất của MacVietKey
-```
-$ brew upgrade --cask openkey
-```
+---
 
-## Note - Lưu ý:
-MacVietKey cần cấp quyền, vào *System Preferences -> Security & Privacy -> Accessibility*, kích hoạt `MacVietKey.app`. **Không tắt nó khi đang dùng MacVietKey**.
-![Guide](https://raw.githubusercontent.com/tuyenvm/tuyenvm.github.io/master/images/openkey-guide.png "Accessibility").
+## 🌟 Điểm nổi bật kỹ thuật
 
-## Tác giả
-- Mai Vũ Tuyên.
-- Mọi góp ý, gửi cho mình qua maivutuyen.91@gmail.com  
-- Fanpage: [https://www.facebook.com/MacVietKeyVN](https://www.facebook.com/MacVietKeyVN)
+- **Watchdog tự phục hồi EventTap:** Giám sát liên tục trạng thái `CGEventTapIsEnabled` mỗi giây. Khi macOS vô hiệu hoá hook do timeout, MacVietKey lập tức kích hoạt lại ngay lập tức mà không cần khởi động lại ứng dụng.
+- **Tối ưu Zero-IPC:** Loại bỏ lệnh gọi quét cửa sổ `CGWindowListCopyWindowInfo` trên từng phím bấm. Xoá bỏ hoàn toàn hiện tượng lag/đơ bàn phím.
+- **Phím tắt nhạy & tức thời:** Khớp chính xác cờ phím hệ thống (`_flag`) giúp các tổ hợp phím như `Control + Space` (chuyển Anh/Việt) hay `Option + Z` (mở bảng điều khiển) hoạt động 100% không trượt.
+- **Bộ Identifier chuẩn VuaOffice:** `com.vuahethong.macvietkey`.
+- **Hỗ trợ đầy đủ kiểu gõ:** Telex, VNI, Simple Telex.
+- **Hỗ trợ trọn bộ bảng mã:** Unicode dựng sẵn, TCVN3 (ABC), VNI Windows, Unicode tổ hợp, Vietnamese Locale CP 1258.
 
-## Liên kết
-- [MacVietKey cho Windows, xem chi tiết tại đây](https://github.com/360org/MacVietKey/tree/master/Sources/MacVietKey/win32)
-- [MacVietKey cho Linux (đang phát triển)](https://github.com/360org/MacVietKey/tree/master/Sources/MacVietKey/linux)
-## Một điều nhỏ nhoi
-Đừng quên ủng hộ tác giả bằng cách mua ly cafe cho tác giả tỉnh ngủ nhé:  
-[Buy me a coffee ^^](https://tuyenvm.github.io/donate.html)  
-[Redbull cũng được ^^](https://paypal.me/tuyenmai)  
-Hoặc trực tiếp qua ví momo:   
-![Donate by momo](https://tuyenvm.github.io/images/momo.png "Momo").   
+---
 
-Cảm ơn các bạn rất nhiều.
+## 📖 Hướng dẫn cấp quyền trên macOS
+
+1. Tải về và kéo `MacVietKey.app` vào thư mục `/Applications`.
+2. Mở **Cài đặt hệ thống (System Settings)** &rarr; **Quyền riêng tư & Bảo mật (Privacy & Security)** &rarr; **Trợ năng (Accessibility)**.
+3. Gạt bật quyền cho **MacVietKey**.
+4. Tắt các bộ gõ tiếng Việt cũ của Apple trong mục **Bàn phím &rarr; Nguồn nhập** để tránh xung đột.
+
+---
+
+## 📄 Bản quyền & Bảo trợ
+
+Phát triển và bảo trợ bởi **360 CORP** & **VUA HỆ THỐNG** ([vuaoffice.com](https://vuaoffice.com)).  
+Phát hành theo giấy phép mã nguồn mở **GNU General Public License (GPL)**.

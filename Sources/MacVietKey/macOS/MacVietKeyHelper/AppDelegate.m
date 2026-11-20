@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  OpenKeyHelper
+//  MacVietKeyHelper
 //
 //  Created by Tuyen on 2/1/19.
 //  Copyright © 2019 Tuyen Mai. All rights reserved.
@@ -10,7 +10,7 @@
 #include <libproc.h>
 #include <sys/proc_info.h>
 
-#define OPENKEY_BUNDLE @"com.vuahethong.macvietkey"
+#define MACVIETKEY_BUNDLE @"com.vuahethong.macvietkey"
 
 @interface AppDelegate ()
 
@@ -20,13 +20,13 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    //Check if OpenKey is running for current user (multi-user/Fast User Switching support)
+    //Check if MacVietKey is running for current user (multi-user/Fast User Switching support)
     uid_t currentUID = getuid();
     NSArray<NSRunningApplication *>* runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
     BOOL isRunning = NO;
 
     for (NSRunningApplication *app in runningApps) {
-        if ([app.bundleIdentifier isEqualToString:OPENKEY_BUNDLE]) {
+        if ([app.bundleIdentifier isEqualToString:MACVIETKEY_BUNDLE]) {
             pid_t pid = app.processIdentifier;
             struct proc_bsdinfo proc;
             int size = proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &proc, sizeof(proc));

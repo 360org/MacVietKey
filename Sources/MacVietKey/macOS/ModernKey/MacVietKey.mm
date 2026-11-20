@@ -1,4 +1,4 @@
-#import "OpenKeyManager.h"
+#import "MacVietKeyManager.h"
 //
 //  OpenKey.m
 //  OpenKey
@@ -46,6 +46,7 @@ extern ViewController* viewController;
 extern AppDelegate* appDelegate;
 extern int vSendKeyStepByStep;
 extern int vFixChromiumBrowser;
+extern int vTempOffMacVietKey;
 extern int vPerformLayoutCompat;
 
 extern "C" {
@@ -87,7 +88,7 @@ extern "C" {
     
     NSString* _frontMostApp = @"UnknownApp";
     
-    void OpenKeyInit() {
+    void MacVietKeyInit() {
         //load saved data
         vFreeMark = 0;//(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"FreeMark"];
         LOAD_DATA(vCodeTable, CodeTable); if (vCodeTable < 0) vCodeTable = 0;
@@ -109,7 +110,7 @@ extern "C" {
         LOAD_DATA(vQuickStartConsonant, vQuickStartConsonant);
         LOAD_DATA(vRememberCode, vRememberCode);
         LOAD_DATA(vOtherLanguage, vOtherLanguage);
-        LOAD_DATA(vTempOffOpenKey, vTempOffOpenKey);
+        LOAD_DATA(vTempOffMacVietKey, vTempOffMacVietKey);
         
         LOAD_DATA(vFixChromiumBrowser, vFixChromiumBrowser);
         
@@ -155,7 +156,7 @@ extern "C" {
     }
     
     void queryFrontMostApp() {
-        if ([[[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier compare:OPENKEY_BUNDLE] != 0) {
+        if ([[[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier compare:MACVIETKEY_BUNDLE] != 0) {
             _frontMostApp = [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier;
             if (_frontMostApp == nil)
                 _frontMostApp = [[NSWorkspace sharedWorkspace] frontmostApplication].localizedName != nil ?
@@ -594,11 +595,11 @@ extern "C" {
      * MAIN HOOK entry, very important function.
      * MAIN Callback.
      */
-    CGEventRef OpenKeyCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+    CGEventRef MacVietKeyCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
         // Handle EventTap disabled by OS (timeout or user input) - Watchdog / auto re-enable
         if (type == kCGEventTapDisabledByTimeout || type == (CGEventType)kCGEventTapDisabledByUserInput) {
             NSLog(@"[MacVietKey] Event tap disabled (type %u), re-enabling immediately...", (unsigned int)type);
-            [OpenKeyManager reenableEventTap];
+            [MacVietKeyManager reenableEventTap];
             return event;
         }
 
@@ -655,7 +656,7 @@ extern "C" {
                 if (vTempOffSpelling && !_hasJustUsedHotKey && _lastFlag & kCGEventFlagMaskControl) {
                     vTempOffSpellChecking();
                 }
-                if (vTempOffOpenKey && !_hasJustUsedHotKey && _lastFlag & kCGEventFlagMaskCommand) {
+                if (vTempOffMacVietKey && !_hasJustUsedHotKey && _lastFlag & kCGEventFlagMaskCommand) {
                     vTempOffEngine();
                 }
                 _lastFlag = 0;

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "OpenKeyManager.h"
+#import "MacVietKeyManager.h"
 #import "AppDelegate.h"
 #import "MyTextField.h"
 
@@ -33,7 +33,7 @@ extern int vQuickStartConsonant;
 extern int vQuickEndConsonant;
 extern int vRememberCode;
 extern int vOtherLanguage;
-extern int vTempOffOpenKey;
+extern int vTempOffMacVietKey;
 extern int vShowIconOnDock;
 extern int vAutoCapsMacro;
 extern int vFixChromiumBrowser;
@@ -85,7 +85,7 @@ extern int vPerformLayoutCompat;
     [self showTab:0];
     
     NSArray* inputTypeData = [[NSArray alloc] initWithObjects:@"Telex", @"VNI", @"Simple Telex 1", @"Simple Telex 2", nil];
-    NSArray* codeData = [OpenKeyManager getTableCodes];
+    NSArray* codeData = [MacVietKeyManager getTableCodes];
     
     //preset data
     [_popupInputType removeAllItems];
@@ -102,12 +102,12 @@ extern int vPerformLayoutCompat;
     self.VersionInfo.stringValue = [NSString stringWithFormat:@"Phiên bản %@ (build %@) - Ngày cập nhật %@",
     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleVersion"],
-    [OpenKeyManager getBuildDate]] ;
+    [MacVietKeyManager getBuildDate]] ;
 }
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    NSString* str = @"OpenKey %@ - Bộ gõ Tiếng Việt";
+    NSString* str = @"MacVietKey %@ - Bộ gõ Tiếng Việt";
     self.view.window.title = [NSString stringWithFormat:str, [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]];
 }
 
@@ -117,7 +117,7 @@ extern int vPerformLayoutCompat;
 
 -(void)initKey {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![OpenKeyManager initEventTap]) {
+        if (![MacVietKeyManager initEventTap]) {
             //self.permissionWarning.hidden = NO;
             //self.retryButton.enabled = YES;
         } else {
@@ -336,9 +336,9 @@ extern int vPerformLayoutCompat;
     vQuickEndConsonant = (int)val;
 }
 
-- (IBAction)onTempOffOpenKeyByHotKey:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffOpenKey"];
-    vTempOffOpenKey = (int)val;
+- (IBAction)onTempOffMacVietKeyByHotKey:(id)sender {
+    NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffMacVietKey"];
+    vTempOffMacVietKey = (int)val;
 }
 
 - (IBAction)onRememberTableCode:(id)sender {
@@ -460,8 +460,8 @@ extern int vPerformLayoutCompat;
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vOtherLanguage"];
     self.OtherLanguage.state = value ? NSControlStateValueOn : NSControlStateValueOff;
     
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vTempOffOpenKey"];
-    self.TempOffOpenKey.state = value ? NSControlStateValueOn : NSControlStateValueOff;
+    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vTempOffMacVietKey"];
+    self.TempOffMacVietKey.state = value ? NSControlStateValueOn : NSControlStateValueOff;
     
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAutoCapsMacro"];
     self.AutoCapsMacro.state = value ? NSControlStateValueOn : NSControlStateValueOff;
@@ -514,7 +514,7 @@ extern int vPerformLayoutCompat;
 }
 
 - (IBAction)onFanpageLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.facebook.com/OpenKeyVN"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.facebook.com/MacVietKeyVN"]];
 }
 
 - (IBAction)onEmailLink:(id)sender {
@@ -522,14 +522,14 @@ extern int vPerformLayoutCompat;
 }
 
 - (IBAction)onSourceCode:(id)sender {
-  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/OpenKey"]];
+  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/MacVietKey"]];
 }
 
 - (IBAction)onCheckNewVersionButton:(id)sender {
     self.CheckNewVersionButton.title = @"Đang kiểm tra...";
     self.CheckNewVersionButton.enabled = false;
     
-    [OpenKeyManager checkNewVersion:self.view.window callbackFunc:^{
+    [MacVietKeyManager checkNewVersion:self.view.window callbackFunc:^{
         self.CheckNewVersionButton.enabled = true;
         self.CheckNewVersionButton.title = @"Kiểm tra bản mới...";
     }];

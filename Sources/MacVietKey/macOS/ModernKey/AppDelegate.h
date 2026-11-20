@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "ViewController.h"
 
-#define OPENKEY_BUNDLE @"com.vuahethong.macvietkey"
+#define MACVIETKEY_BUNDLE @"com.vuahethong.macvietkey"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 

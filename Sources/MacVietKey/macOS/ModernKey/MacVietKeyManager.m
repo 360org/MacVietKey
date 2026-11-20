@@ -1,27 +1,27 @@
 //
-//  OpenKeyManager.m
+//  MacVietKeyManager.m
 //  OpenKey
 //
 //  Created by Tuyen on 1/27/19.
 //  Copyright © 2019 Tuyen Mai. All rights reserved.
 //
 
-#import "OpenKeyManager.h"
+#import "MacVietKeyManager.h"
 
-extern void OpenKeyInit(void);
+extern void MacVietKeyInit(void);
 
-extern CGEventRef OpenKeyCallback(CGEventTapProxy proxy,
+extern CGEventRef MacVietKeyCallback(CGEventTapProxy proxy,
                                   CGEventType type,
                                   CGEventRef event,
                                   void *refcon);
 
 extern NSString* ConvertUtil(NSString* str);
 
-@interface OpenKeyManager ()
+@interface MacVietKeyManager ()
 
 @end
 
-@implementation OpenKeyManager {
+@implementation MacVietKeyManager {
 
 }
 static BOOL _isInited = NO;
@@ -75,7 +75,7 @@ static dispatch_source_t  watchdogTimer = NULL;
         return true;
     
     //init modernKey
-    OpenKeyInit();
+    MacVietKeyInit();
     
     // Create an event tap. We are interested in key presses.
     eventMask = ((1 << kCGEventKeyDown) |
@@ -90,7 +90,7 @@ static dispatch_source_t  watchdogTimer = NULL;
                                 kCGHeadInsertEventTap,
                                 kCGEventTapOptionDefault,
                                 eventMask,
-                                OpenKeyCallback,
+                                MacVietKeyCallback,
                                 NULL);
     
     if (!eventTap) {

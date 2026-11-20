@@ -7,7 +7,7 @@
 //
 
 #import "AboutViewController.h"
-#import "OpenKeyManager.h"
+#import "MacVietKeyManager.h"
 
 @interface AboutViewController ()
 
@@ -22,7 +22,7 @@
     self.VersionInfo.stringValue = [NSString stringWithFormat:@"Phiên bản %@ (build %@) - Ngày cập nhật %@",
                                     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
                                     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleVersion"],
-                                    [OpenKeyManager getBuildDate]] ;
+                                    [MacVietKeyManager getBuildDate]] ;
     
     NSInteger dontCheckUpdate = [[NSUserDefaults standardUserDefaults] integerForKey:@"DontCheckUpdate"];
     self.CheckUpdateOnStatus.state = dontCheckUpdate ? NSControlStateValueOff :NSControlStateValueOn;
@@ -33,7 +33,7 @@
 }
 
 - (IBAction)onFanPage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.facebook.com/OpenKeyVN"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://vuaoffice.com"]];
 }
 
 - (IBAction)onLatestReleaseVersion:(id)sender {
@@ -50,7 +50,7 @@
     self.CheckNewVersionButton.title = @"Đang kiểm tra...";
     self.CheckNewVersionButton.enabled = false;
     
-    [OpenKeyManager checkNewVersion: self.view.window callbackFunc:^{
+    [MacVietKeyManager checkNewVersion: self.view.window callbackFunc:^{
         self.CheckNewVersionButton.enabled = true;
         self.CheckNewVersionButton.title = @"Kiểm tra bản mới...";
     }];
