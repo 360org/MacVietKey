@@ -1,6 +1,6 @@
 cask "macvietkey" do
   version "2.2.0"
-  sha256 "6481ab0dd013d645b972b28e545c7ba2a6e2d2f767de3a11c13e0c5573eda661"
+  sha256 "15b9cac5fe760a298ad774933fa3928eaf4fc7f52dc7896e673a6da4f45c7b30"
 
   url "https://github.com/360org/MacVietKey/releases/download/v#{version}/MacVietKey-v#{version}-macOS.dmg"
   name "MacVietKey"

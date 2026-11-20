@@ -93,6 +93,17 @@ extern bool convertToolDontAlertWhenCompleted;
 
 -(void)askPermission {
     NSAlert *alert = [[NSAlert alloc] init];
+    NSImage *appIcon = [NSImage imageNamed:@"Icon"];
+    if (!appIcon) {
+        NSString *iconPath = [[NSBundle mainBundle] pathForResource:@"Icon" ofType:@"icns"];
+        if (iconPath) {
+            appIcon = [[NSImage alloc] initWithContentsOfFile:iconPath];
+        }
+    }
+    if (appIcon) {
+        [alert setIcon:appIcon];
+        [NSApp setApplicationIconImage:appIcon];
+    }
     [alert setMessageText: [NSString stringWithFormat:@"MacVietKey cần bạn cấp quyền để có thể hoạt động!"]];
     [alert setInformativeText:@"Vui lòng chạy lại ứng dụng sau khi cấp quyền."];
 
@@ -113,6 +124,10 @@ extern bool convertToolDontAlertWhenCompleted;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     appDelegate = self;
+    NSImage *appIcon = [NSImage imageNamed:@"Icon"];
+    if (appIcon) {
+        [NSApp setApplicationIconImage:appIcon];
+    }
     
     [self registerSupportedNotification];
     
