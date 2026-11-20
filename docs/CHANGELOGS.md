@@ -1,5 +1,13 @@
 # MacVietKey — Changelog
 
+## v2.1.1 (2026-11-20)
+-----------------------
+- [REFACTOR] Đổi tên toàn diện thương hiệu và định danh từ OpenKey sang MacVietKey.
+- [REFACTOR] Cập nhật Bundle Identifier thành com.360org.macvietkey và com.360org.macvietkey.helper.
+- [REFACTOR] Đồng bộ thư mục lưu trữ Application Support sang ~/Library/Application Support/MacVietKey.
+- [REFACTOR] Cập nhật toàn bộ liên kết dự án, repository và releases sang 360org/MacVietKey trên GitHub.
+- [CI] Cập nhật workflow msbuild và macos-build xuất artifact với tên MacVietKey.
+
 ## v2.1.0 (2026-11-20)
 -----------------------
 - [FIX] Sửa triệt để lỗi liệt EventTap và ngắt phím gõ tiếng Việt trên macOS Sequoia/Sonoma do `kCGEventTapDisabledByTimeout` không được phục hồi.

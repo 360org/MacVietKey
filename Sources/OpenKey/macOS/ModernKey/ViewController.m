@@ -510,7 +510,7 @@ extern int vPerformLayoutCompat;
 }
 
 - (IBAction)onHomePageLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://open-key.org"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/360org/MacVietKey#readme"]];
 }
 
 - (IBAction)onFanpageLink:(id)sender {

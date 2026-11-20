@@ -271,7 +271,7 @@ BEGIN
     ICON            IDI_APP_ICON,IDC_STATIC,10,13,20,20
     LTEXT           "OpenKey - Bộ gõ Tiếng Việt nguồn mở đa nền tảng",IDC_STATIC_APP_TITLE,39,9,206,8,SS_NOPREFIX
     LTEXT           "Trang chủ",IDC_STATIC_APP_TITLE2,39,19,37,8,SS_NOPREFIX
-    CONTROL         "<a>https://open-key.org</a>",IDC_SYSLINK_HOME_PAGE,
+    CONTROL         "<a>https://github.com/360org/MacVietKey#readme</a>",IDC_SYSLINK_HOME_PAGE,
                     "SysLink",WS_TABSTOP,81,19,101,10
     LTEXT           "Facebook",IDC_STATIC_APP_TITLE3,39,29,37,8,SS_NOPREFIX
     CONTROL         "<a>https://www.facebook.com/OpenKeyVN</a>",IDC_SYSLINK_FANPAGE,

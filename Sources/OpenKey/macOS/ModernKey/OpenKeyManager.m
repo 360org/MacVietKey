@@ -187,7 +187,7 @@ static dispatch_source_t  watchdogTimer = NULL;
 +(void)checkNewVersion:(NSWindow*)parent callbackFunc:(CheckNewVersionCallback) callback {
     //load new version config
     NSURLSession *aSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[aSession dataTaskWithURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/tuyenvm/OpenKey/master/version.json"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [[aSession dataTaskWithURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/360org/MacVietKey/master/version.json"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (((NSHTTPURLResponse *)response).statusCode == 200) {
             if (data) {
                 if(NSClassFromString(@"NSJSONSerialization")) {
@@ -228,8 +228,8 @@ static dispatch_source_t  watchdogTimer = NULL;
 
 +(void)showUpdateMessage:(NSWindow*)parent needUpdating:(BOOL)needUpdating newVersion:(NSString*)versionString {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:(needUpdating ? [NSString stringWithFormat:@"OpenKey Có phiên bản mới (%@), bạn có muốn cập nhật không?", versionString] : @"Bạn đang dùng phiên bản mới nhất!")];
-    [alert setInformativeText:(needUpdating ? @"Bấm 'Có' để cập nhật OpenKey." : @"")];
+    [alert setMessageText:(needUpdating ? [NSString stringWithFormat:@"MacVietKey Có phiên bản mới (%@), bạn có muốn cập nhật không?", versionString] : @"Bạn đang dùng phiên bản mới nhất!")];
+    [alert setInformativeText:(needUpdating ? @"Bấm 'Có' để cập nhật MacVietKey." : @"")];
     
     if (!needUpdating) {
         [alert addButtonWithTitle:@"OK"];
@@ -256,7 +256,7 @@ static dispatch_source_t  watchdogTimer = NULL;
 +(void)launchUpdateHelper {
     //check update app has exist or not
     NSError *copyError = nil;
-    NSString* target = [NSString stringWithFormat:@"%@/OpenKeyUpdate.app", [self getApplicationSupportFolder]];
+    NSString* target = [NSString stringWithFormat:@"%@/MacVietKeyUpdate.app", [self getApplicationSupportFolder]];
     [[NSFileManager defaultManager] removeItemAtPath:target error:&copyError];
     if (![[NSFileManager defaultManager] fileExistsAtPath:target]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:[self getApplicationSupportFolder] withIntermediateDirectories:YES attributes:nil error:nil];
@@ -278,11 +278,11 @@ static dispatch_source_t  watchdogTimer = NULL;
 +(NSString*)getApplicationSupportFolder {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *applicationSupportDirectory = [paths firstObject];
-    return [NSString stringWithFormat:@"%@/OpenKey", applicationSupportDirectory];
+    return [NSString stringWithFormat:@"%@/MacVietKey", applicationSupportDirectory];
 }
 
 +(NSString*)getUpdateBundlePath {
     NSString *currentpath = [[NSBundle mainBundle] bundlePath];
-    return [NSString stringWithFormat:@"%@/Contents/Library/LoginItems/OpenKeyUpdate.app", currentpath];
+    return [NSString stringWithFormat:@"%@/Contents/Library/LoginItems/MacVietKeyUpdate.app", currentpath];
 }
 @end

@@ -269,7 +269,7 @@ INT_PTR MainControlDialog::eventProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM
         case NM_RETURN: {
             PNMLINK link = (PNMLINK)lParam;
             if (link->hdr.idFrom == IDC_SYSLINK_HOME_PAGE)
-                ShellExecute(NULL, _T("open"), _T("http://open-key.org"), NULL, NULL, SW_SHOWNORMAL);
+                ShellExecute(NULL, _T("open"), _T("https://github.com/360org/MacVietKey#readme"), NULL, NULL, SW_SHOWNORMAL);
             else if (link->hdr.idFrom == IDC_SYSLINK_FANPAGE)
                 ShellExecute(NULL, _T("open"), _T("https://www.facebook.com/OpenKeyVN"), NULL, NULL, SW_SHOWNORMAL);
             else if (link->hdr.idFrom == IDC_SYSLINK_AUTHOR_EMAIL)

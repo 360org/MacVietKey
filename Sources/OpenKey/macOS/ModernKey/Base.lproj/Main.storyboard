@@ -1586,7 +1586,7 @@
                                                     </connections>
                                                 </clickGestureRecognizer>
                                             </gestureRecognizers>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" continuous="YES" sendsActionOnEndEditing="YES" title="https://open-key.org" id="nHn-YP-grx">
+                                            <textFieldCell key="cell" lineBreakMode="clipping" continuous="YES" sendsActionOnEndEditing="YES" title="https://github.com/360org/MacVietKey#readme" id="nHn-YP-grx">
                                                 <font key="font" metaFont="systemThin" size="13"/>
                                                 <color key="textColor" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
