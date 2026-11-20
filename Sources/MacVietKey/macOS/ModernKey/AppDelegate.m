@@ -173,7 +173,7 @@ extern bool convertToolDontAlertWhenCompleted;
     }
     
     // Check Accessibility permission with boot retry to prevent false alarms on system reboot
-    [self checkPermissionAndStartup:5];
+    [self checkPermissionAndStartup:10];
 }
 
 -(void)checkPermissionAndStartup:(int)retriesLeft {
