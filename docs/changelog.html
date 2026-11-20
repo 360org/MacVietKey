@@ -202,24 +202,56 @@
             <span>v2.2.0</span>
             <span class="badge-latest">MỚI NHẤT</span>
           </div>
-          <div class="release-date">Phát hành: 20 Tháng 11, 2026</div>
+          <div class="release-date">Phát hành chính thức: 20 Tháng 11, 2026</div>
         </div>
         <ul class="changes-list">
           <li>
+            <span class="tag tag-new">WATCHDOG</span>
+            <span><strong>Cơ chế Watchdog tự phục hồi EventTap từ EVKey</strong>: Bộ định thời GCD 1.0 giây liên tục giám sát trạng thái hook. Tự động kích hoạt lại ngay lập tức khi macOS ngắt bàn phím do timeout (<code>kCGEventTapDisabledByTimeout</code>), giải quyết triệt để lỗi liệt phím trên macOS Sequoia &amp; Sonoma.</span>
+          </li>
+          <li>
+            <span class="tag tag-improve">PERF</span>
+            <span><strong>Tối ưu hóa Zero-IPC Fast-Path</strong>: Loại bỏ hoàn toàn lệnh gọi <code>CGWindowListCopyWindowInfo</code> trên từng phím bấm trong hàm kiểm tra Spotlight, triệt tiêu 100% hiện tượng khựng/lag khi gõ văn bản trên Spotlight, Google Chrome và Safari.</span>
+          </li>
+          <li>
+            <span class="tag tag-fix">FIX</span>
+            <span><strong>Khắc phục lỗi mất quyền Trợ năng khi khởi động lại máy</strong>: Nhúng Designated Requirement cố định <code>designated =&gt; identifier "com.vuahethong.vuaoffice.macvietkey"</code> vào chữ ký số, giúp macOS TCC lưu quyền vĩnh viễn theo Bundle ID. Bổ sung cơ chế chờ 5 giây khi máy khởi động để tránh cảnh báo cấp quyền giả.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">BRAND</span>
+            <span><strong>Biểu tượng ứng dụng chính thức 10 tầng chuẩn Apple ICNS</strong>: Trích xuất và đóng gói bộ icon thiết kế mới (nền vuông xanh công nghệ, chữ V và phím Command ⌘). Gán trực tiếp biểu tượng vào hộp thoại cảnh báo và tiến trình ứng dụng, xoá bỏ hoàn toàn icon chữ V đỏ cũ.</span>
+          </li>
+          <li>
             <span class="tag tag-refactor">REFACTOR</span>
-            <span><strong>Đồng bộ bộ Identifier chuẩn VuaOffice</strong>: Chuyển đổi toàn bộ Bundle Identifier thành <code>com.vuahethong.vuaoffice.macvietkey</code> và <code>com.vuahethong.vuaoffice.macvietkey.helper</code> theo tiêu chuẩn hệ thống 360 CORP.</span>
+            <span><strong>Chuẩn hoá thông tin nhận diện VuaOffice</strong>: Thay thế toàn bộ liên kết, thông tin tác giả cũ trong hộp thoại Giới thiệu sang <code>MacVietKey</code>, kho mã nguồn GitHub 360org, website <code>https://vuaoffice.com</code> và bản quyền <code>360 CORP &amp; VUA HỆ THỐNG © 2026</code>.</span>
           </li>
           <li>
-            <span class="tag tag-new">NEW</span>
-            <span><strong>Xây dựng trang tài liệu trực tuyến chuyên nghiệp</strong>: Cung cấp hệ thống tài liệu HTML đầy đủ tại <code>docs/index.html</code> và <code>docs/changelog.html</code> với giao diện hiện đại tương đồng VuaOffice.com.</span>
+            <span class="tag tag-fix">UI/UX</span>
+            <span><strong>Hợp nhất kiểu gõ Simple Telex chuẩn Unikey / EVKey</strong>: Loại bỏ phân nhánh 1 và 2 gây khó hiểu, chỉ giữ lại một lựa chọn Simple Telex duy nhất chuẩn mực (gõ <code>w</code> ra <code>ư</code>, giữ nguyên phím ngoặc vuông <code>[</code> <code>]</code> cho người dùng kỹ thuật).</span>
           </li>
           <li>
-            <span class="tag tag-refactor">REFACTOR</span>
-            <span><strong>Thay thế toàn bộ liên kết open-key.org</strong>: Trỏ toàn bộ các liên kết trang chủ, cập nhật và mã nguồn sang kho lưu trữ và trang tài liệu chính thức trên GitHub.</span>
+            <span class="tag tag-fix">FIX</span>
+            <span><strong>Sửa dứt điểm lỗi không mở được Bảng điều khiển</strong>: Bổ sung ánh xạ định danh storyboard trong <code>Main.storyboardc/Info.plist</code> và thêm lệnh <code>[NSApp activateIgnoringOtherApps:YES]</code> giúp cửa sổ bảng điều khiển luôn nổi lên trên cùng khi người dùng bấm từ thanh menu.</span>
           </li>
           <li>
-            <span class="tag tag-new">CI/CD</span>
-            <span><strong>Thiết lập GitHub Pages Automation</strong>: Thêm workflow tự động triển khai trang tài liệu khi có thay đổi trên nhánh chính.</span>
+            <span class="tag tag-new">SHORTCUT</span>
+            <span><strong>Phím tắt chuyển ngôn ngữ mặc định Control + Space</strong>: Thiết lập tổ hợp phím <code>Control + Space</code> làm phím tắt mặc định sẵn sàng ngay sau khi cài đặt.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">ARCH</span>
+            <span><strong>macOS Universal Binary Native 100%</strong>: Hỗ trợ bản địa trực tiếp trên cả Apple Silicon (M1–M4, arm64) và Mac Intel (x86_64).</span>
+          </li>
+          <li>
+            <span class="tag tag-new">RELEASE</span>
+            <span><strong>Bộ cài đặt đĩa ảo DMG chuẩn Apple</strong>: Phát hành tệp đĩa ảo <code>MacVietKey-v2.2.0-macOS.dmg</code> tích hợp shortcut kéo thả vào <code>/Applications</code> bên cạnh bản nén ZIP.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">PLATFORM</span>
+            <span><strong>Hỗ trợ song song Windows và Linux</strong>: Tự động hoá đóng gói bản cài đặt Windows (x64 và x86) và Linux Ubuntu x86_64 qua GitHub Actions.</span>
+          </li>
+          <li>
+            <span class="tag tag-new">HOMEBREW</span>
+            <span><strong>Công thức Homebrew Cask tiện lợi</strong>: Hỗ trợ cài đặt tự động qua lệnh <code>brew install --cask</code> với tệp <code>Casks/macvietkey.rb</code>.</span>
           </li>
         </ul>
       </article>
