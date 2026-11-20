@@ -19,11 +19,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Build Tools
-        run: sudo apt-get update && sudo apt-get install -y build-essential clang
+        run: sudo apt-get update && sudo apt-get install -y build-essential
 
       - name: Build and Run Vietnamese Engine Test Suite
         run: |
-          clang++ -std=c++14 -DLINUX \
+          g++ -std=c++14 -DLINUX \
             tests/test_vietnamese_engine.cpp \
             Sources/MacVietKey/engine/Engine.cpp \
             Sources/MacVietKey/engine/Vietnamese.cpp \

@@ -32,11 +32,12 @@ jobs:
       run: msbuild -m -target:Rebuild -p:Configuration=Release -p:Platform=x64 ${{env.SOLUTION_FILE_PATH}}
 
     - name: Package Windows ZIP Archives
-      shell: bash
+      shell: pwsh
       run: |
-        mkdir -p release_win
-        cd Sources/MacVietKey/win32/OpenKey/x64/Release && 7z a -tzip ../../../../../release_win/MacVietKey-v2.2.0-windows-x64.zip * && cd -
-        cd Sources/MacVietKey/win32/OpenKey/Release && 7z a -tzip ../../../../release_win/MacVietKey-v2.2.0-windows-x86.zip * && cd -
+        New-Item -ItemType Directory -Force -Path release_win
+        Compress-Archive -Path Sources\MacVietKey\win32\OpenKey\x64\Release\* -DestinationPath release_win\MacVietKey-v2.2.0-windows-x64.zip -Force
+        Compress-Archive -Path Sources\MacVietKey\win32\OpenKey\Release\* -DestinationPath release_win\MacVietKey-v2.2.0-windows-x86.zip -Force
+        Get-ChildItem release_win
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
