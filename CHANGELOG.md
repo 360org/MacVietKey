@@ -1,11 +1,11 @@
 # MacVietKey Change Log
 
-##### Version 1.0.0: (20/11/2026) - Bản phát hành chính thức đầu tiên
-- Phát hành chính thức MacVietKey v1.0.0 cho macOS.
-- Tích hợp cơ chế Watchdog đa tầng tự động kích hoạt lại EventTap khi bị hệ điều hành ngắt.
+##### Version 2.2.0: (20/11/2026) - Phát hành chính thức MacVietKey
+- Phát hành chính thức MacVietKey v2.2.0 cho macOS.
+- Kế thừa toàn diện từ OpenKey và cơ chế Watchdog của EVKey.
 - Sửa triệt để lỗi liệt phím tắt và mất gõ tiếng Việt trên macOS Sequoia/Sonoma.
-- Tối ưu hiệu năng: loại bỏ gọi IPC CGWindowListCopyWindowInfo trên mỗi phím bấm.
-- Chuẩn hoá bộ Identifier: com.vuahethong.macvietkey.
-- Thêm CI/CD GitHub Actions build tự động và tạo GitHub Release đính kèm file nén MacVietKey-macOS.zip.
-- Xuất bản trang tài liệu trực tuyến chuẩn phong cách VuaOffice.
+- Tối ưu hiệu năng Zero-IPC: loại bỏ gọi IPC CGWindowListCopyWindowInfo trên mỗi phím bấm.
+- Chuẩn hoá bộ Identifier theo VuaOffice: com.vuahethong.macvietkey.
+- Tự động hoá GitHub Release với file nén MacVietKey-macOS.zip.
+- Trang tài liệu trực tuyến chuyên nghiệp chuẩn phong cách VuaOffice.
 
