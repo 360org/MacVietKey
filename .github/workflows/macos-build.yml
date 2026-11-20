@@ -62,3 +62,21 @@ jobs:
       with:
         name: MacVietKey-macOS
         path: build_output/
+
+    - name: Create GitHub Release on Tag
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v2
+      with:
+        name: "MacVietKey Release ${{ github.ref_name }}"
+        body: |
+          ### MacVietKey — Bản Phát Hành Chính Thức ${{ github.ref_name }}
+          Bộ gõ tiếng Việt mã nguồn mở tối ưu cho macOS kế thừa từ OpenKey & EVKey.
+
+          #### Điểm nổi bật:
+          - **Tự động phục hồi EventTap (Watchdog)**: Chống đơ/liệt bàn phím trên macOS Sequoia và Sonoma.
+          - **Tối ưu Zero-IPC**: Loại bỏ độ trễ phím gõ trên Spotlight và các trình duyệt Chromium/Safari.
+          - **Phím tắt chuyển ngôn ngữ nhạy**: Khớp chính xác cờ phím tức thời, không bị trôi cờ.
+          - **Hỗ trợ trọn gói bộ mã**: Unicode dựng sẵn, Unicode tổ hợp, TCVN3 (ABC), VNI Windows.
+          - **Chuẩn Identifier VuaOffice**: `com.vuahethong.macvietkey`.
+        files: |
+          build_output/MacVietKey-macOS.zip
