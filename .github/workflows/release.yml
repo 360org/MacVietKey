@@ -41,4 +41,5 @@ jobs:
           draft: false
           prerelease: false
           files: |
+            release/MacVietKey-v2.2.0-macOS.dmg
             release/MacVietKey-v2.2.0-macOS.zip

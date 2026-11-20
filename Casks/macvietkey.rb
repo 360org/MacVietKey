@@ -1,8 +1,8 @@
 cask "macvietkey" do
   version "2.2.0"
-  sha256 "3659455d39a47e1e54ba04795138f3a741f8ea7192facab00ac22bb9225de84f"
+  sha256 "6481ab0dd013d645b972b28e545c7ba2a6e2d2f767de3a11c13e0c5573eda661"
 
-  url "https://github.com/360org/MacVietKey/releases/download/v#{version}/MacVietKey-v#{version}-macOS.zip"
+  url "https://github.com/360org/MacVietKey/releases/download/v#{version}/MacVietKey-v#{version}-macOS.dmg"
   name "MacVietKey"
   desc "Bộ gõ tiếng Việt chuẩn mực cho macOS (Hệ sinh thái VuaOffice)"
   homepage "https://360org.github.io/MacVietKey/"

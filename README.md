@@ -20,7 +20,7 @@ brew install --cask https://raw.githubusercontent.com/360org/MacVietKey/master/C
 ```
 
 Hoặc tải file cài đặt trực tiếp:
-- **macOS Universal (.zip):** [MacVietKey-v2.2.0-macOS.zip](https://github.com/360org/MacVietKey/releases/latest)
+- **macOS Universal (.zip):** **[MacVietKey-v2.2.0-macOS.dmg](https://github.com/360org/MacVietKey/releases/latest)** (Khuyên dùng) hoặc [Bản nén ZIP](https://github.com/360org/MacVietKey/releases/latest)
 
 ---
 
