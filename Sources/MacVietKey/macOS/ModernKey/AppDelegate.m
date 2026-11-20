@@ -32,7 +32,7 @@ int vCodeTable = 0;
 int vCheckSpelling = 1;
 int vUseModernOrthography = 1;
 int vQuickTelex = 0;
-#define DEFAULT_SWITCH_STATUS 0x7A000206 //default option + z
+#define DEFAULT_SWITCH_STATUS 0x31000131 //default control + space
 int vSwitchKeyStatus = DEFAULT_SWITCH_STATUS;
 int vRestoreIfWrongSpelling = 0;
 int vFixRecommendBrowser = 1;
@@ -332,7 +332,7 @@ extern bool convertToolDontAlertWhenCompleted;
     vFreeMark = 0; [[NSUserDefaults standardUserDefaults] setInteger:vFreeMark forKey:@"FreeMark"];
     vCheckSpelling = 1; [[NSUserDefaults standardUserDefaults] setInteger:vCheckSpelling forKey:@"Spelling"];
     vCodeTable = 0; [[NSUserDefaults standardUserDefaults] setInteger:vCodeTable forKey:@"CodeTable"];
-    vSwitchKeyStatus = DEFAULT_SWITCH_STATUS; [[NSUserDefaults standardUserDefaults] setInteger:vCodeTable forKey:@"SwitchKeyStatus"];
+    vSwitchKeyStatus = DEFAULT_SWITCH_STATUS; [[NSUserDefaults standardUserDefaults] setInteger:vSwitchKeyStatus forKey:@"SwitchKeyStatus"];
     vQuickTelex = 0; [[NSUserDefaults standardUserDefaults] setInteger:vQuickTelex forKey:@"QuickTelex"];
     vUseModernOrthography = 0; [[NSUserDefaults standardUserDefaults] setInteger:vUseModernOrthography forKey:@"ModernOrthography"];
     vRestoreIfWrongSpelling = 0; [[NSUserDefaults standardUserDefaults] setInteger:vRestoreIfWrongSpelling forKey:@"RestoreIfInvalidWord"];
@@ -518,6 +518,7 @@ extern bool convertToolDontAlertWhenCompleted;
         return;
     [_convertWC.window makeKeyAndOrderFront:nil];
     [_convertWC.window setLevel:NSFloatingWindowLevel];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 -(void)onQuickConvert {
@@ -532,14 +533,21 @@ extern bool convertToolDontAlertWhenCompleted;
 
 -(void) onControlPanelSelected {
     if (_mainWC == nil) {
-        _mainWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MacVietKey"];
+        @try {
+            _mainWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MacVietKey"];
+        } @catch (NSException *e) {
+            @try {
+                _mainWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"OpenKey"];
+            } @catch (NSException *e2) {
+                NSLog(@"Failed to instantiate control panel window: %@", e2);
+            }
+        }
     }
-    //[MacVietKeyManager showDockIcon:YES];
-    if ([_mainWC.window isVisible]) {
-        return;
+    if (_mainWC != nil) {
+        [_mainWC.window makeKeyAndOrderFront:nil];
+        [_mainWC.window setLevel:NSFloatingWindowLevel];
+        [NSApp activateIgnoringOtherApps:YES];
     }
-    [_mainWC.window makeKeyAndOrderFront:nil];
-    [_mainWC.window setLevel:NSFloatingWindowLevel];
 }
 
 -(void) onMacroSelected {
@@ -552,6 +560,7 @@ extern bool convertToolDontAlertWhenCompleted;
     
     [_macroWC.window makeKeyAndOrderFront:nil];
     [_macroWC.window setLevel:NSFloatingWindowLevel];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 -(void) onAboutSelected {
@@ -564,6 +573,7 @@ extern bool convertToolDontAlertWhenCompleted;
 
     [_aboutWC.window makeKeyAndOrderFront:nil];
     [_aboutWC.window setLevel:NSFloatingWindowLevel];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 #pragma mark -Short key event
