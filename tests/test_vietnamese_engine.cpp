@@ -1,3 +1,4 @@
+#include "platforms/mac.h"
 #include <iostream>
 #include <vector>
 #include <cassert>

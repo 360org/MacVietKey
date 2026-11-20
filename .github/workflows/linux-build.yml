@@ -26,5 +26,6 @@ jobs:
             Sources/MacVietKey/engine/SmartSwitchKey.cpp \
             Sources/MacVietKey/engine/ConvertTool.cpp \
             -I Sources/MacVietKey/engine \
+            -I Sources/MacVietKey/engine/platforms \
             -o tests/linux_test_runner
           ./tests/linux_test_runner
