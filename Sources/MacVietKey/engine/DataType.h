@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstring>
 //
 //  DataType.h
 //  OpenKey
