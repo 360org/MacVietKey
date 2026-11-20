@@ -1,9 +1,9 @@
 //
 //  AboutViewController.m
-//  OpenKey
+//  MacVietKey
 //
-//  Created by Tuyen on 2/15/19.
-//  Copyright © 2019 Tuyen Mai. All rights reserved.
+//  Created by 360 CORP on 2026.
+//  Copyright © 2026 360 CORP & VUA HỆ THỐNG. All rights reserved.
 //
 
 #import "AboutViewController.h"
@@ -15,17 +15,41 @@
 
 @implementation AboutViewController
 
+- (void)updateLabelsInView:(NSView *)view {
+    for (NSView *sub in view.subviews) {
+        if ([sub isKindOfClass:[NSTextField class]]) {
+            NSTextField *tf = (NSTextField *)sub;
+            NSString *val = tf.stringValue;
+            if ([val isEqualToString:@"OpenKey"]) {
+                tf.stringValue = @"MacVietKey";
+            } else if ([val containsString:@"tuyenvm/OpenKey/releases"]) {
+                tf.stringValue = @"https://github.com/360org/MacVietKey/releases";
+            } else if ([val containsString:@"tuyenvm/OpenKey"]) {
+                tf.stringValue = @"https://github.com/360org/MacVietKey";
+            } else if ([val containsString:@"OpenKeyVN"]) {
+                tf.stringValue = @"https://vuaoffice.com";
+            } else if ([val containsString:@"Mai Vũ Tuyên"] || [val containsString:@"2019"]) {
+                tf.stringValue = @"360 CORP & VUA HỆ THỐNG © 2026";
+            } else if ([val containsString:@"OpenKey"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"OpenKey" withString:@"MacVietKey"];
+            }
+        }
+        [self updateLabelsInView:sub];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+    
+    [self updateLabelsInView:self.view];
     
     self.VersionInfo.stringValue = [NSString stringWithFormat:@"Phiên bản %@ (build %@) - Ngày cập nhật %@",
                                     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
                                     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleVersion"],
-                                    [MacVietKeyManager getBuildDate]] ;
+                                    [MacVietKeyManager getBuildDate]];
     
     NSInteger dontCheckUpdate = [[NSUserDefaults standardUserDefaults] integerForKey:@"DontCheckUpdate"];
-    self.CheckUpdateOnStatus.state = dontCheckUpdate ? NSControlStateValueOff :NSControlStateValueOn;
+    self.CheckUpdateOnStatus.state = dontCheckUpdate ? NSControlStateValueOff : NSControlStateValueOn;
 }
 
 - (IBAction)onHomePage:(id)sender {
@@ -46,7 +70,6 @@
 }
 
 - (IBAction)onCheckNewVersion:(id)sender {
-    
     self.CheckNewVersionButton.title = @"Đang kiểm tra...";
     self.CheckNewVersionButton.enabled = false;
     
