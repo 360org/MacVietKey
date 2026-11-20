@@ -104,11 +104,11 @@ extern bool convertToolDontAlertWhenCompleted;
         [alert setIcon:appIcon];
         [NSApp setApplicationIconImage:appIcon];
     }
-    [alert setMessageText: [NSString stringWithFormat:@"MacVietKey cần bạn cấp quyền để có thể hoạt động!"]];
-    [alert setInformativeText:@"Vui lòng chạy lại ứng dụng sau khi cấp quyền."];
+    [alert setMessageText:@"MacVietKey cần bạn cấp quyền Trợ năng (Accessibility)!"];
+    [alert setInformativeText:@"Bật công tắc MacVietKey trong Cài đặt hệ thống (System Settings) để bắt đầu gõ tiếng Việt."];
 
     [alert addButtonWithTitle:@"Không"];
-    [alert addButtonWithTitle:@"Cấp quyền"];
+    [alert addButtonWithTitle:@"Mở Cài Đặt Hệ Thống"];
 
     [alert.window makeKeyAndOrderFront:nil];
     [alert.window setLevel:NSStatusWindowLevel];
@@ -117,9 +117,21 @@ extern bool convertToolDontAlertWhenCompleted;
 
     if (res == 1001) {
         MJAccessibilityOpenPanel();
+        // Wait and poll for user enabling permission in System Settings instead of quitting
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            for (int i = 0; i < 60; i++) {
+                [NSThread sleepForTimeInterval:1.0];
+                if (MJAccessibilityIsEnabled()) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self continueStartupAfterPermission];
+                    });
+                    return;
+                }
+            }
+        });
+    } else {
+        [NSApp terminate:0];
     }
-
-    [NSApp terminate:0];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -160,12 +172,27 @@ extern bool convertToolDontAlertWhenCompleted;
         return;
     }
     
-    // check if user granted Accessabilty permission
-    if (!MJAccessibilityIsEnabled()) {
-        [self askPermission];
+    // Check Accessibility permission with boot retry to prevent false alarms on system reboot
+    [self checkPermissionAndStartup:5];
+}
+
+-(void)checkPermissionAndStartup:(int)retriesLeft {
+    if (MJAccessibilityIsEnabled()) {
+        [self continueStartupAfterPermission];
         return;
     }
-    
+    if (retriesLeft > 0) {
+        // TCC / WindowServer may still be loading at boot; retry after 500ms
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+            [self checkPermissionAndStartup:retriesLeft - 1];
+        });
+        return;
+    }
+    // Only ask if all retries exhausted
+    [self askPermission];
+}
+
+-(void)continueStartupAfterPermission {
     vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
     if (vShowIconOnDock)
         [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
