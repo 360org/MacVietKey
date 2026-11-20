@@ -78,8 +78,7 @@ extern bool convertToolDontAlertWhenCompleted;
     
     NSMenuItem* mnuTelex;
     NSMenuItem* mnuVNI;
-    NSMenuItem* mnuSimpleTelex1;
-    NSMenuItem* mnuSimpleTelex2;
+    NSMenuItem* mnuSimpleTelex;
     
     NSMenuItem* mnuUnicode;
     NSMenuItem* mnuTCVN;
@@ -384,10 +383,8 @@ extern bool convertToolDontAlertWhenCompleted;
     mnuTelex.tag = 0;
     mnuVNI = [sub addItemWithTitle:@"VNI" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
     mnuVNI.tag = 1;
-    mnuSimpleTelex1 = [sub addItemWithTitle:@"Simple Telex 1" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
-    mnuSimpleTelex1.tag = 2;
-    mnuSimpleTelex2 = [sub addItemWithTitle:@"Simple Telex 2" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
-    mnuSimpleTelex2.tag = 3;
+    mnuSimpleTelex = [sub addItemWithTitle:@"Simple Telex" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
+    mnuSimpleTelex.tag = 2;
     [theMenu setSubmenu:sub forItem:parent];
 }
 
@@ -423,18 +420,17 @@ extern bool convertToolDontAlertWhenCompleted;
     NSInteger intInputType = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputType"];
     [mnuTelex setState:NSControlStateValueOff];
     [mnuVNI setState:NSControlStateValueOff];
-    [mnuSimpleTelex1 setState:NSControlStateValueOff];
-    [mnuSimpleTelex2 setState:NSControlStateValueOff];
+    [mnuSimpleTelex setState:NSControlStateValueOff];
     if (intInputType == 0) {
         [mnuTelex setState:NSControlStateValueOn];
+        vInputType = 0;
     } else if (intInputType == 1) {
         [mnuVNI setState:NSControlStateValueOn];
-    } else if (intInputType == 2) {
-        [mnuSimpleTelex1 setState:NSControlStateValueOn];
-    } else if (intInputType == 3) {
-        [mnuSimpleTelex2 setState:NSControlStateValueOn];
+        vInputType = 1;
+    } else {
+        [mnuSimpleTelex setState:NSControlStateValueOn];
+        vInputType = 3; // vSimpleTelex2: standard Unikey/EVKey Simple Telex (w -> ư, brackets literal)
     }
-    vInputType = (int)intInputType;
     
     NSInteger intSwitchKeyStatus = [[NSUserDefaults standardUserDefaults] integerForKey:@"SwitchKeyStatus"];
     vSwitchKeyStatus = (int)intSwitchKeyStatus;
@@ -493,8 +489,9 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 - (void)onInputTypeSelectedIndex:(int)index {
-    [[NSUserDefaults standardUserDefaults] setInteger:index forKey:@"InputType"];
-    vInputType = index;
+    int engineType = (index >= 2) ? 3 : index; // 2 -> vSimpleTelex2 (Standard Simple Telex)
+    [[NSUserDefaults standardUserDefaults] setInteger:engineType forKey:@"InputType"];
+    vInputType = engineType;
     [self fillData];
     [viewController fillData];
 }

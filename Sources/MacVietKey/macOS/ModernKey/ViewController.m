@@ -84,7 +84,7 @@ extern int vPerformLayoutCompat;
     
     [self showTab:0];
     
-    NSArray* inputTypeData = [[NSArray alloc] initWithObjects:@"Telex", @"VNI", @"Simple Telex 1", @"Simple Telex 2", nil];
+    NSArray* inputTypeData = [[NSArray alloc] initWithObjects:@"Telex", @"VNI", @"Simple Telex", nil];
     NSArray* codeData = [MacVietKeyManager getTableCodes];
     
     //preset data
@@ -391,7 +391,11 @@ extern int vPerformLayoutCompat;
     }
     
     NSInteger intInputType = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputType"];
-    [self.popupInputType selectItemAtIndex:intInputType];
+    if (intInputType >= 2) {
+        [self.popupInputType selectItemAtIndex:2];
+    } else {
+        [self.popupInputType selectItemAtIndex:intInputType];
+    }
     
     NSInteger intCodeTable = [[NSUserDefaults standardUserDefaults] integerForKey:@"CodeTable"];
     [self.popupCode selectItemAtIndex:intCodeTable];
