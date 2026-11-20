@@ -88,7 +88,7 @@ static dispatch_source_t  watchdogTimer = NULL;
     
     eventTap = CGEventTapCreate(kCGSessionEventTap,
                                 kCGHeadInsertEventTap,
-                                0,
+                                kCGEventTapOptionDefault,
                                 eventMask,
                                 OpenKeyCallback,
                                 NULL);
