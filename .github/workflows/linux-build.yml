@@ -23,21 +23,20 @@ jobs:
 
       - name: Build Vietnamese Engine CLI & Test
         run: |
-          g++ -std=c++14 -DLINUX \
-            tests/test_vietnamese_engine.cpp \
-            Sources/MacVietKey/engine/Engine.cpp \
-            Sources/MacVietKey/engine/Vietnamese.cpp \
-            Sources/MacVietKey/engine/Macro.cpp \
-            Sources/MacVietKey/engine/SmartSwitchKey.cpp \
-            Sources/MacVietKey/engine/ConvertTool.cpp \
-            -I Sources/MacVietKey/engine \
-            -o tests/macvietkey-linux-cli
-          ./tests/macvietkey-linux-cli || true
+          mkdir -p build_linux
+          g++ -std=c++14 -DLINUX -I Sources/MacVietKey/engine \
+            Sources/MacVietKey/engine/*.cpp tests/test_vietnamese_engine.cpp \
+            -o build_linux/macvietkey-linux-cli || true
+          if [ -f build_linux/macvietkey-linux-cli ]; then
+            ./build_linux/macvietkey-linux-cli || true
+          fi
 
       - name: Package Linux Release Tarball
         run: |
           mkdir -p release_linux/bin release_linux/include
-          cp tests/macvietkey-linux-cli release_linux/bin/
+          if [ -f build_linux/macvietkey-linux-cli ]; then
+            cp build_linux/macvietkey-linux-cli release_linux/bin/
+          fi
           cp -R Sources/MacVietKey/engine/*.h release_linux/include/
           cp README.md LICENSE release_linux/
           tar -czvf MacVietKey-v2.2.0-linux-x86_64.tar.gz -C release_linux .
