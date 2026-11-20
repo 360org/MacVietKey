@@ -1,4 +1,12 @@
-# OpenKey Change Log
+# MacVietKey Change Log
+
+##### Version 2.1.0: (20/11/2026)
+- Sửa lỗi liệt phím tắt và mất gõ tiếng Việt trên macOS Sequoia/Sonoma do kCGEventTapDisabledByTimeout.
+- Tích hợp cơ chế Watchdog tự động kích hoạt lại EventTap khi bị hệ thống ngắt.
+- Tối ưu hiệu năng: loại bỏ gọi IPC CGWindowListCopyWindowInfo trên mỗi phím bấm.
+- Khắc phục lỗi phím tắt chuyển ngôn ngữ và mở bảng điều khiển.
+- Thêm CI/CD GitHub Actions build tự động cho macOS.
+
 
 ##### OpenKey for Linux: (in development)
 

@@ -17,6 +17,10 @@ typedef void (^CheckNewVersionCallback)(void);
 +(BOOL)isInited;
 +(BOOL)initEventTap;
 +(BOOL)stopEventTap;
++(void)reenableEventTap;
++(BOOL)isEventTapEnabled;
++(void)startWatchdog;
++(void)stopWatchdog;
 
 +(NSArray*)getTableCodes;
 

@@ -547,6 +547,8 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 -(void)activeAppChanged: (NSNotification*)note {
+    extern void queryFrontMostApp(void);
+    queryFrontMostApp();
     if (vUseSmartSwitchKey && [OpenKeyManager isInited]) {
         OnActiveAppChanged();
     }

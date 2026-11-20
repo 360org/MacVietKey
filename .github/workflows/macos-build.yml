@@ -1,0 +1,64 @@
+name: macOS Build & Release
+
+on:
+  push:
+    branches: [ "master" ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    runs-on: macos-14
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer || true
+
+    - name: Build MacVietKey Test Suite
+      run: |
+        clang++ -std=c++14 \
+          tests/test_vietnamese_engine.cpp \
+          Sources/OpenKey/engine/Engine.cpp \
+          Sources/OpenKey/engine/Vietnamese.cpp \
+          Sources/OpenKey/engine/Macro.cpp \
+          Sources/OpenKey/engine/SmartSwitchKey.cpp \
+          Sources/OpenKey/engine/ConvertTool.cpp \
+          -I Sources/OpenKey/engine \
+          -o tests/test_runner
+        ./tests/test_runner
+
+    - name: Build MacVietKey Xcode Project
+      run: |
+        xcodebuild -project Sources/OpenKey/macOS/OpenKey.xcodeproj \
+          -scheme OpenKey \
+          -configuration Release \
+          -destination 'generic/platform=macOS' \
+          build \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO
+
+    - name: Prepare Application Bundle
+      run: |
+        mkdir -p build_output
+        BUILT_APP=$(find ~/Library/Developer/Xcode/DerivedData -name "OpenKey.app" -type d | head -n 1)
+        if [ -n "$BUILT_APP" ]; then
+          cp -R "$BUILT_APP" build_output/MacVietKey.app
+          cd build_output && zip -r MacVietKey-macOS.zip MacVietKey.app
+        else
+          echo "Warning: Built app not found in standard DerivedData"
+        fi
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: MacVietKey-macOS
+        path: build_output/

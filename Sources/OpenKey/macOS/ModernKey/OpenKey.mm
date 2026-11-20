@@ -1,3 +1,4 @@
+#import "OpenKeyManager.h"
 //
 //  OpenKey.m
 //  OpenKey
@@ -12,7 +13,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
-#define FRONT_APP [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier
+#define FRONT_APP (_frontMostApp != nil ? _frontMostApp : @"UnknownApp")
 #define OTHER_CONTROL_KEY (_flag & kCGEventFlagMaskCommand) || (_flag & kCGEventFlagMaskControl) || \
                             (_flag & kCGEventFlagMaskAlternate) || (_flag & kCGEventFlagMaskSecondaryFn) || \
                             (_flag & kCGEventFlagMaskNumericPad) || (_flag & kCGEventFlagMaskHelp)
@@ -176,14 +177,8 @@ extern "C" {
     }
 
     BOOL isSpotlightVisible() {
-        NSArray *windows = CFBridgingRelease(CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements,
-                                                                        kCGNullWindowID));
-        for (NSDictionary *window in windows) {
-            if ([[window objectForKey:(__bridge NSString *)kCGWindowOwnerName] isEqualToString:@"Spotlight"]) {
-                return true;
-            }
-        }
-        return false;
+        if (_frontMostApp == nil) return false;
+        return [_frontMostApp hasPrefix:@"com.apple.Spotlight"] || [_frontMostApp isEqualToString:@"com.apple.Spotlight"];
     }
 
     BOOL shouldUseRecommendWorkaround(NSString* topApp) {
@@ -512,16 +507,17 @@ extern "C" {
         }
     }
             
-    bool checkHotKey(int hotKeyData, bool checkKeyCode=true) {
+    bool checkHotKey(int hotKeyData, bool checkKeyCode=true, CGEventFlags flagsToCheck=0) {
         if ((hotKeyData & (~0x8000)) == EMPTY_HOTKEY)
             return false;
-        if (HAS_CONTROL(hotKeyData) ^ GET_BOOL(_lastFlag & kCGEventFlagMaskControl))
+        CGEventFlags flag = flagsToCheck ? flagsToCheck : (_flag ? _flag : _lastFlag);
+        if (HAS_CONTROL(hotKeyData) ^ GET_BOOL(flag & kCGEventFlagMaskControl))
             return false;
-        if (HAS_OPTION(hotKeyData) ^ GET_BOOL(_lastFlag & kCGEventFlagMaskAlternate))
+        if (HAS_OPTION(hotKeyData) ^ GET_BOOL(flag & kCGEventFlagMaskAlternate))
             return false;
-        if (HAS_COMMAND(hotKeyData) ^ GET_BOOL(_lastFlag & kCGEventFlagMaskCommand))
+        if (HAS_COMMAND(hotKeyData) ^ GET_BOOL(flag & kCGEventFlagMaskCommand))
             return false;
-        if (HAS_SHIFT(hotKeyData) ^ GET_BOOL(_lastFlag & kCGEventFlagMaskShift))
+        if (HAS_SHIFT(hotKeyData) ^ GET_BOOL(flag & kCGEventFlagMaskShift))
             return false;
         if (checkKeyCode) {
             if (GET_SWITCH_KEY(hotKeyData) != _keycode)
@@ -599,6 +595,13 @@ extern "C" {
      * MAIN Callback.
      */
     CGEventRef OpenKeyCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+        // Handle EventTap disabled by OS (timeout or user input) - Watchdog / auto re-enable
+        if (type == kCGEventTapDisabledByTimeout || type == (CGEventType)kCGEventTapDisabledByUserInput) {
+            NSLog(@"[MacVietKey] Event tap disabled (type %u), re-enabling immediately...", (unsigned int)type);
+            [OpenKeyManager reenableEventTap];
+            return event;
+        }
+
         //dont handle my event
         if (CGEventGetIntegerValueField(event, kCGEventSourceStateID) == CGEventSourceGetSourceStateID(myEventSource)) {
             return event;
@@ -617,13 +620,13 @@ extern "C" {
             if (GET_SWITCH_KEY(vSwitchKeyStatus) != _keycode && GET_SWITCH_KEY(convertToolHotKey) != _keycode) {
                 _lastFlag = 0;
             } else {
-                if (GET_SWITCH_KEY(vSwitchKeyStatus) == _keycode && checkHotKey(vSwitchKeyStatus, GET_SWITCH_KEY(vSwitchKeyStatus) != 0xFE)){
+                if (GET_SWITCH_KEY(vSwitchKeyStatus) == _keycode && checkHotKey(vSwitchKeyStatus, GET_SWITCH_KEY(vSwitchKeyStatus) != 0xFE, _flag)){
                     switchLanguage();
                     _lastFlag = 0;
                     _hasJustUsedHotKey = true;
                     return NULL;
                 }
-                if (GET_SWITCH_KEY(convertToolHotKey) == _keycode && checkHotKey(convertToolHotKey, GET_SWITCH_KEY(convertToolHotKey) != 0xFE)){
+                if (GET_SWITCH_KEY(convertToolHotKey) == _keycode && checkHotKey(convertToolHotKey, GET_SWITCH_KEY(convertToolHotKey) != 0xFE, _flag)){
                     [appDelegate onQuickConvert];
                     _lastFlag = 0;
                     _hasJustUsedHotKey = true;
@@ -636,13 +639,13 @@ extern "C" {
                 _lastFlag = _flag;
             } else if (_lastFlag > _flag)  {
                 //check switch
-                if (checkHotKey(vSwitchKeyStatus, GET_SWITCH_KEY(vSwitchKeyStatus) != 0xFE)) {
+                if (checkHotKey(vSwitchKeyStatus, GET_SWITCH_KEY(vSwitchKeyStatus) != 0xFE, _lastFlag)) {
                     _lastFlag = 0;
                     switchLanguage();
                     _hasJustUsedHotKey = true;
                     return NULL;
                 }
-                if (checkHotKey(convertToolHotKey, GET_SWITCH_KEY(convertToolHotKey) != 0xFE)) {
+                if (checkHotKey(convertToolHotKey, GET_SWITCH_KEY(convertToolHotKey) != 0xFE, _lastFlag)) {
                     _lastFlag = 0;
                     [appDelegate onQuickConvert];
                     _hasJustUsedHotKey = true;
@@ -701,9 +704,9 @@ extern "C" {
                     CFStringRef langRef = (CFStringRef)CFArrayGetValueAtIndex(languages, 0);
                     NSString *currentLanguage = (__bridge NSString *)langRef;
                     if(![currentLanguage isLike:@"en"]){
+                        CFRelease(isource);
                         return event;
                     }
-                    CFRelease(langRef);
                     CFRelease(isource);
                 }
             }

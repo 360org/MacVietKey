@@ -26,9 +26,45 @@ extern NSString* ConvertUtil(NSString* str);
 }
 static BOOL _isInited = NO;
 
-static CFMachPortRef      eventTap;
+static CFMachPortRef      eventTap = NULL;
 static CGEventMask        eventMask;
-static CFRunLoopSourceRef runLoopSource;
+static CFRunLoopSourceRef runLoopSource = NULL;
+static dispatch_source_t  watchdogTimer = NULL;
+
++(void)reenableEventTap {
+    if (eventTap != NULL) {
+        CGEventTapEnable(eventTap, true);
+    }
+}
+
++(BOOL)isEventTapEnabled {
+    return (eventTap != NULL && CGEventTapIsEnabled(eventTap));
+}
+
++(void)startWatchdog {
+    if (watchdogTimer != NULL) return;
+    watchdogTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+    if (watchdogTimer != NULL) {
+        dispatch_source_set_timer(watchdogTimer,
+                                  dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC),
+                                  1 * NSEC_PER_SEC,
+                                  100 * NSEC_PER_MSEC);
+        dispatch_source_set_event_handler(watchdogTimer, ^{
+            if (eventTap != NULL && !CGEventTapIsEnabled(eventTap)) {
+                NSLog(@"[MacVietKey Watchdog] Re-enabling keyboard event tap");
+                CGEventTapEnable(eventTap, true);
+            }
+        });
+        dispatch_resume(watchdogTimer);
+    }
+}
+
++(void)stopWatchdog {
+    if (watchdogTimer != NULL) {
+        dispatch_source_cancel(watchdogTimer);
+        watchdogTimer = NULL;
+    }
+}
 
 +(BOOL)isInited {
     return _isInited;
@@ -73,11 +109,13 @@ static CFRunLoopSourceRef runLoopSource;
     
     // Enable the event tap.
     CGEventTapEnable(eventTap, true);
+    [self startWatchdog];
     
     return YES;
 }
 
 +(BOOL)stopEventTap {
+    [self stopWatchdog];
     if (_isInited) { //release all object
         CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
         CFRelease(runLoopSource);
