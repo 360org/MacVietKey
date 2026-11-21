@@ -1,5 +1,17 @@
 # MacVietKey — Changelog
 
+## v2.2.1 (2026-11-21) — Phát Hành Bản Nâng Cấp Hoàn Thiện & Audit Toàn Diện
+-------------------------------------------------------------------------
+- [BRANDING] Rà soát và chuyển đổi 100% thông tin trong tab Thông tin của Bảng điều khiển sang 360 CORP & VUA HỆ THỐNG:
+  * Trang chủ chính thức: https://360org.github.io/MacVietKey/
+  * Website hệ sinh thái: https://vuaoffice.com
+  * Hòm thư hỗ trợ kỹ thuật: support@360.org.vn
+  * Bản quyền pháp lý: 360 CORP & VUA HỆ THỐNG © 2026
+  * Sửa sạch triệt để toàn bộ chuỗi cũ trong tệp giao diện nhị phân NIB và mã nguồn ViewController.m.
+- [UI] Bổ sung hàm đệ quy updateInfoLabelsInView: tự động chuẩn hóa nhãn khi bảng điều khiển mở lên.
+- [SHORTCUT] Khóa cứng phím tắt chuyển ngôn ngữ mặc định thành Control + Space (0x31000131).
+- [RELEASE] Đóng gói bộ cài đặt đĩa ảo MacVietKey-v2.2.1-macOS.dmg và bản nén ZIP Universal Binary.
+
 ## v2.2.0 (2026-11-20) — Bản Phát Hành Chính Thức Toàn Diện (Hệ Sinh Thái VuaOffice)
 ----------------------------------------------------------------------------------
 
