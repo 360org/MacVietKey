@@ -1,7 +1,7 @@
 //
 // win32.h
-// Created by Tuyen Mai on 9/10/19.
-// Copyright (c) 2019 Tuyen Mai. All rights reserved.
+// Created by 360 CORP & VUA HỆ THỐNG on 9/10/19.
+// Copyright (c) 2019 360 CORP & VUA HỆ THỐNG. All rights reserved.
 //
 
 

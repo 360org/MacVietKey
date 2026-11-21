@@ -3,7 +3,7 @@
 //  ModernKey
 //
 //  Created by Tuyen on 1/18/19.
-//  Copyright © 2019 Tuyen Mai. All rights reserved.
+//  Copyright © 2019 360 CORP & VUA HỆ THỐNG. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

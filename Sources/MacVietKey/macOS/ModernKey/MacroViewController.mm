@@ -3,7 +3,7 @@
 //  OpenKey
 //
 //  Created by Tuyen on 8/4/19.
-//  Copyright © 2019 Tuyen Mai. All rights reserved.
+//  Copyright © 2019 360 CORP & VUA HỆ THỐNG. All rights reserved.
 //
 
 #import "MacroViewController.h"

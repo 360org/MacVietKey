@@ -3,7 +3,7 @@
 //  ModernKey
 //
 //  Created by Tuyen on 1/18/19.
-//  Copyright © 2019 Tuyen Mai. All rights reserved.
+//  Copyright © 2019 360 CORP & VUA HỆ THỐNG. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -40,6 +40,39 @@ extern int vFixChromiumBrowser;
 extern int vPerformLayoutCompat;
 
 @implementation ViewController {
+
+- (void)updateInfoLabelsInView:(NSView *)view {
+    for (NSView *sub in view.subviews) {
+        if ([sub isKindOfClass:[NSTextField class]]) {
+            NSTextField *tf = (NSTextField *)sub;
+            NSString *val = tf.stringValue;
+            if ([val containsString:@"open-key.org"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"https://open-key.org" withString:@"https://360org.github.io/MacVietKey/"];
+                tf.stringValue = [tf.stringValue stringByReplacingOccurrencesOfString:@"open-key.org" withString:@"360org.github.io/MacVietKey"];
+            }
+            if ([val containsString:@"support@360.org.vn"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"support@360.org.vn" withString:@"support@360.org.vn"];
+            }
+            if ([val containsString:@"OpenKeyVN"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"https://www.facebook.com/OpenKeyVN" withString:@"https://vuaoffice.com"];
+            }
+            if ([val containsString:@"Facebook"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"Facebook" withString:@"VuaOffice"];
+            }
+            if ([val containsString:@"360 CORP © 2026 - "]) {
+                tf.stringValue = @"360 CORP & VUA HỆ THỐNG © 2026 - ";
+            }
+            if ([val containsString:@"Mai Vũ Tuyên"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"Mai Vũ Tuyên" withString:@"360 CORP & VUA HỆ THỐNG"];
+            }
+            if ([val containsString:@"OpenKey"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"OpenKey" withString:@"MacVietKey"];
+            }
+        }
+        [self updateInfoLabelsInView:sub];
+    }
+}
+
     __weak IBOutlet NSButton *CustomSwitchCommand;
     __weak IBOutlet NSButton *CustomSwitchOption;
     __weak IBOutlet NSButton *CustomSwitchControl;
@@ -95,6 +128,7 @@ extern int vPerformLayoutCompat;
     [self.popupCode addItemsWithTitles:codeData];
     
     [self initKey];
+    [self updateInfoLabelsInView:self.view];
     
     [self fillData];
     
@@ -113,6 +147,7 @@ extern int vPerformLayoutCompat;
 
 - (void)viewWillAppear {
     [self initKey];
+    [self updateInfoLabelsInView:self.view];
 }
 
 -(void)initKey {
@@ -177,6 +212,7 @@ extern int vPerformLayoutCompat;
     self.retryButton.enabled = NO;
     
     [self initKey];
+    [self updateInfoLabelsInView:self.view];
 }
 
 - (IBAction)onFreeMark:(NSButton *)sender {
@@ -514,19 +550,19 @@ extern int vPerformLayoutCompat;
 }
 
 - (IBAction)onHomePageLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/360org/MacVietKey#readme"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://360org.github.io/MacVietKey/"]];
 }
 
 - (IBAction)onFanpageLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.facebook.com/MacVietKeyVN"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://vuaoffice.com"]];
 }
 
 - (IBAction)onEmailLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"mailto:maivutuyen.91@gmail.com"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"mailto:support@360.org.vn"]];
 }
 
 - (IBAction)onSourceCode:(id)sender {
-  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/MacVietKey"]];
+  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/360org/MacVietKey"]];
 }
 
 - (IBAction)onCheckNewVersionButton:(id)sender {
