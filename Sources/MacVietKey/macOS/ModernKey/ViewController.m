@@ -40,6 +40,16 @@ extern int vFixChromiumBrowser;
 extern int vPerformLayoutCompat;
 
 @implementation ViewController {
+    __weak IBOutlet NSButton *CustomSwitchCommand;
+    __weak IBOutlet NSButton *CustomSwitchOption;
+    __weak IBOutlet NSButton *CustomSwitchControl;
+    __weak IBOutlet NSButton *CustomSwitchShift;
+    __weak IBOutlet MyTextField *CustomSwitchKey;
+    __weak IBOutlet NSButton *CustomBeepSound;
+    NSArray* tabviews, *tabbuttons;
+    NSRect tabViewRect;
+    NSView* tabButtonBackground;
+}
 
 - (void)updateInfoLabelsInView:(NSView *)view {
     for (NSView *sub in view.subviews) {
@@ -50,8 +60,8 @@ extern int vPerformLayoutCompat;
                 tf.stringValue = [val stringByReplacingOccurrencesOfString:@"https://open-key.org" withString:@"https://360org.github.io/MacVietKey/"];
                 tf.stringValue = [tf.stringValue stringByReplacingOccurrencesOfString:@"open-key.org" withString:@"360org.github.io/MacVietKey"];
             }
-            if ([val containsString:@"support@360.org.vn"]) {
-                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"support@360.org.vn" withString:@"support@360.org.vn"];
+            if ([val containsString:@"maivutuyen.91@gmail.com"]) {
+                tf.stringValue = [val stringByReplacingOccurrencesOfString:@"maivutuyen.91@gmail.com" withString:@"support@360.org.vn"];
             }
             if ([val containsString:@"OpenKeyVN"]) {
                 tf.stringValue = [val stringByReplacingOccurrencesOfString:@"https://www.facebook.com/OpenKeyVN" withString:@"https://vuaoffice.com"];
@@ -73,16 +83,6 @@ extern int vPerformLayoutCompat;
     }
 }
 
-    __weak IBOutlet NSButton *CustomSwitchCommand;
-    __weak IBOutlet NSButton *CustomSwitchOption;
-    __weak IBOutlet NSButton *CustomSwitchControl;
-    __weak IBOutlet NSButton *CustomSwitchShift;
-    __weak IBOutlet MyTextField *CustomSwitchKey;
-    __weak IBOutlet NSButton *CustomBeepSound;
-    NSArray* tabviews, *tabbuttons;
-    NSRect tabViewRect;
-    NSView* tabButtonBackground;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
