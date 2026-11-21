@@ -30,16 +30,16 @@ jobs:
             #### 🌟 Điểm nổi bật:
             - **Watchdog tự phục hồi EventTap**: Khắc phục triệt để lỗi liệt bàn phím trên macOS Sequoia & Sonoma.
             - **Tối ưu Zero-IPC**: Loại bỏ độ trễ phím gõ trên Spotlight, Chrome và Safari.
-            - **Phím tắt nhạy**: Khớp chính xác cờ phím tức thời (Control+Space / Option+Z).
+            - **Phím tắt nhạy**: Mặc định tổ hợp `Control + Space` chuyển ngôn ngữ tức thì.
             - **Đầy đủ bộ mã**: Unicode dựng sẵn, TCVN3 (ABC), VNI Windows, Unicode tổ hợp.
-            - **Bộ Identifier chuẩn VuaOffice**: `com.vuahethong.macvietkey`.
+            - **Kiến trúc Universal Binary**: Tương thích bản địa (Native) cả Apple Silicon (`arm64`) và Intel (`x86_64`).
+            - **Bộ Identifier chuẩn VuaOffice**: `com.vuahethong.vuaoffice.macvietkey`.
             
             #### 📦 Hướng dẫn cài đặt:
-            1. Tải tệp `MacVietKey-v2.2.0-macOS.zip` đính kèm bên dưới.
-            2. Giải nén và kéo `MacVietKey.app` vào thư mục `/Applications`.
+            1. Tải tệp `MacVietKey-v2.2.1-macOS.dmg` đính kèm bên dưới.
+            2. Mở đĩa ảo và kéo `MacVietKey.app` vào thư mục `/Applications`.
             3. Cấp quyền tại **System Settings &rarr; Privacy & Security &rarr; Accessibility**.
           draft: false
           prerelease: false
           files: |
-            release/MacVietKey-v2.2.0-macOS.dmg
-            release/MacVietKey-v2.2.0-macOS.zip
+            release/*

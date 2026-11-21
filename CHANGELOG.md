@@ -1,5 +1,11 @@
 # MacVietKey Change Log
 
+##### Version 2.2.1: (21/11/2026) — Phát hành bản nâng cấp hoàn thiện 360org & VuaOffice
+- Chuẩn hóa 100% thông tin trong tab Thông tin của Bảng điều khiển sang 360 CORP & VUA HỆ THỐNG.
+- Cập nhật trang chủ https://360org.github.io/MacVietKey/, website https://vuaoffice.com và email support@360.org.vn.
+- Phím tắt chuyển ngôn ngữ mặc định Control + Space.
+- Đóng gói đĩa ảo MacVietKey-v2.2.1-macOS.dmg và tệp nén Universal ZIP.
+
 ##### Version 2.2.0: (20/11/2026) — Bản phát hành chính thức MacVietKey (VuaOffice Suite)
 - **Watchdog tự phục hồi EventTap:** Tích hợp bộ giám sát ngầm chu kỳ 1.0 giây từ EVKey, tự kích hoạt lại hook bàn phím khi macOS ngắt luồng.
 - **Tối ưu Zero-IPC:** Loại bỏ quét cửa sổ `CGWindowListCopyWindowInfo` trên từng phím gõ, triệt tiêu độ trễ phím trên Spotlight, Chrome và Safari.

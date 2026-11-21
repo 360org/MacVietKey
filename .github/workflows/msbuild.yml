@@ -35,8 +35,8 @@ jobs:
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Force -Path release_win
-        Compress-Archive -Path Sources\MacVietKey\win32\OpenKey\x64\Release\* -DestinationPath release_win\MacVietKey-v2.2.0-windows-x64.zip -Force
-        Compress-Archive -Path Sources\MacVietKey\win32\OpenKey\Release\* -DestinationPath release_win\MacVietKey-v2.2.0-windows-x86.zip -Force
+        Compress-Archive -Path Sources\MacVietKey\win32\OpenKey\x64\Release\* -DestinationPath release_win\MacVietKey-v2.2.1-windows-x64.zip -Force
+        Compress-Archive -Path Sources\MacVietKey\win32\OpenKey\Release\* -DestinationPath release_win\MacVietKey-v2.2.1-windows-x86.zip -Force
         Get-ChildItem release_win
 
     - name: Upload Build Artifacts
@@ -50,5 +50,5 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          release_win/MacVietKey-v2.2.0-windows-x64.zip
-          release_win/MacVietKey-v2.2.0-windows-x86.zip
+          release_win/MacVietKey-v2.2.1-windows-x64.zip
+          release_win/MacVietKey-v2.2.1-windows-x86.zip
