@@ -360,9 +360,71 @@ extern bool convertToolDontAlertWhenCompleted;
     [viewController fillData];
 }
 
+-(NSString *)launchAgentPlistPath {
+    NSString *home = NSHomeDirectory();
+    return [NSString stringWithFormat:@"%@/Library/LaunchAgents/com.vuahethong.vuaoffice.macvietkey.plist", home];
+}
+
+-(void)manageLaunchAgent:(BOOL)enable {
+    NSString *plistPath = [self launchAgentPlistPath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    if (enable) {
+        NSString *launchAgentsDir = [plistPath stringByDeletingLastPathComponent];
+        if (![fm fileExistsAtPath:launchAgentsDir]) {
+            [fm createDirectoryAtPath:launchAgentsDir withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        NSString *appPath = [[NSBundle mainBundle] bundlePath];
+        if (!appPath || [appPath length] == 0) {
+            appPath = @"/Applications/MacVietKey.app";
+        }
+        
+        NSDictionary *dict = @{
+            @"Label": @"com.vuahethong.vuaoffice.macvietkey",
+            @"ProgramArguments": @[@"/usr/bin/open", @"-a", appPath],
+            @"RunAtLoad": @YES,
+            @"ProcessType": @"Interactive"
+        };
+        
+        [dict writeToFile:plistPath atomically:YES];
+        NSLog(@"[MacVietKey] LaunchAgent enabled at: %@", plistPath);
+    } else {
+        if ([fm fileExistsAtPath:plistPath]) {
+            [fm removeItemAtPath:plistPath error:nil];
+            NSLog(@"[MacVietKey] LaunchAgent removed from: %@", plistPath);
+        }
+    }
+}
+
 -(void)setRunOnStartup:(BOOL)val {
-    CFStringRef appId = (__bridge CFStringRef)@"com.tuyenmai.MacVietKeyHelper";
+    // 1. LaunchAgent for 100% reliability across all macOS versions
+    [self manageLaunchAgent:val];
+    
+    // 2. Modern SMAppService for native macOS 13+ (Ventura, Sonoma, Sequoia)
+    if (@available(macOS 13.0, *)) {
+        SMAppService *service = [SMAppService mainAppService];
+        NSError *error = nil;
+        if (val) {
+            if (service.status != SMAppServiceStatusEnabled) {
+                BOOL ok = [service registerAndReturnError:&error];
+                if (!ok) {
+                    NSLog(@"[MacVietKey] SMAppService register note: %@", error);
+                }
+            }
+        } else {
+            if (service.status == SMAppServiceStatusEnabled) {
+                [service unregisterAndReturnError:&error];
+            }
+        }
+    }
+    
+    // 3. Legacy embedded login item helper fallback
+    CFStringRef appId = (__bridge CFStringRef)@"com.vuahethong.vuaoffice.macvietkey.helper";
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SMLoginItemSetEnabled(appId, val);
+#pragma clang diagnostic pop
 }
 
 -(void)setGrayIcon:(BOOL)val {

@@ -1,6 +1,6 @@
 cask "macvietkey" do
   version "2.2.1"
-  sha256 "8576d236b44e33062319102d2601601f48b40119ddb075f1b4c5d02dd4f79aef"
+  sha256 "3f10f85db2855ee4f3e51bf6bf27224dd2e0e254a9f884a72154377cb47564f7"
 
   url "https://github.com/360org/MacVietKey/releases/download/v#{version}/MacVietKey-v#{version}-macOS.dmg"
   name "MacVietKey"
@@ -23,5 +23,6 @@ cask "macvietkey" do
     "~/Library/HTTPStorages/com.vuahethong.vuaoffice.macvietkey",
     "~/Library/Preferences/com.vuahethong.vuaoffice.macvietkey.plist",
     "~/Library/Saved Application State/com.vuahethong.vuaoffice.macvietkey.savedState",
+    "~/Library/LaunchAgents/com.vuahethong.vuaoffice.macvietkey.plist",
   ]
 end
