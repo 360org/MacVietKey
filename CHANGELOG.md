@@ -1,5 +1,11 @@
 # MacVietKey Change Log
 
+##### Version 2.2.2: (23/11/2026) — Sửa dứt điểm lỗi tự bật Bảng điều khiển khi mở máy
+- Sửa triệt để lỗi Bảng điều khiển tự bật lên khi khởi động macOS dù không chọn tùy chọn này.
+- Khởi động hoàn toàn ẩn dưới thanh menu thông qua LaunchAgent chạy trực tiếp tệp nhị phân nền.
+- Cơ chế thử lại khởi tạo hook bàn phím trong yên lặng (startEventTapQuietly).
+- Phát hành bộ cài đặt đĩa ảo MacVietKey-v2.2.2-macOS.dmg và bản nén ZIP Universal Binary.
+
 ##### Version 2.2.1: (21/11/2026) — Phát hành bản nâng cấp hoàn thiện 360org & VuaOffice
 - Chuẩn hóa 100% thông tin trong tab Thông tin của Bảng điều khiển sang 360 CORP & VUA HỆ THỐNG.
 - Cập nhật trang chủ https://360org.github.io/MacVietKey/, website https://vuaoffice.com và email support@360.org.vn.

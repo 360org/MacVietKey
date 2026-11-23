@@ -1,5 +1,14 @@
 # MacVietKey — Changelog
 
+## v2.2.2 (2026-11-23) — Bản Phát Hành Sửa Dứt Điểm Lỗi Khởi Động & Chạy Ẩn Nền
+-------------------------------------------------------------------------
+- [FIX] Sửa triệt để hiện tượng Bảng điều khiển (Dashboard) tự bật lên màn hình khi mở máy:
+  * Loại bỏ hoàn toàn lệnh gọi mở Bảng điều khiển khi khởi tạo hook bàn phím trong AppDelegate.m.
+  * Bổ sung cơ chế thử lại khởi tạo phím trong yên lặng (startEventTapQuietly:5) tuân thủ 100% cấu hình ShowUIOnStartup.
+  * Giới hạn applicationShouldHandleReopen chỉ kích hoạt khi người dùng bật biểu tượng Dock và chủ động nhấn vào.
+  * Cập nhật LaunchAgent chạy trực tiếp tệp nhị phân nền mà không kích hoạt Finder hoặc sự kiện mở cửa sổ.
+- [RELEASE] Phát hành bộ cài đặt đĩa ảo MacVietKey-v2.2.2-macOS.dmg và tệp nén ZIP Universal Binary.
+
 ## v2.2.1 (2026-11-21) — Phát Hành Bản Nâng Cấp Hoàn Thiện & Audit Toàn Diện
 -------------------------------------------------------------------------
 - [BRANDING] Rà soát và chuyển đổi 100% thông tin trong tab Thông tin của Bảng điều khiển sang 360 CORP & VUA HỆ THỐNG:
