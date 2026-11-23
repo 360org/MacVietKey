@@ -191,6 +191,28 @@ extern bool convertToolDontAlertWhenCompleted;
     [self askPermission];
 }
 
+
+-(void)startEventTapQuietly:(int)retriesLeft {
+    if ([MacVietKeyManager initEventTap]) {
+        NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
+        if (showui == 1) {
+            [self onControlPanelSelected];
+        }
+    } else if (retriesLeft > 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+            [self startEventTapQuietly:retriesLeft - 1];
+        });
+        return;
+    } else {
+        NSLog(@"[MacVietKey] initEventTap will be monitored by watchdog");
+        NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
+        if (showui == 1) {
+            [self onControlPanelSelected];
+        }
+    }
+    [self setQuickConvertString];
+}
+
 -(void)continueStartupAfterPermission {
     vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
     if (vShowIconOnDock)
@@ -201,17 +223,9 @@ extern bool convertToolDontAlertWhenCompleted;
 
     [self createStatusBarMenu];
     
-    //init
+    //init with quiet retries; strictly respect ShowUIOnStartup
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![MacVietKeyManager initEventTap]) {
-            [self onControlPanelSelected];
-        } else {
-            NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
-            if (showui == 1) {
-                [self onControlPanelSelected];
-            }
-        }
-        [self setQuickConvertString];
+        [self startEventTapQuietly:5];
     });
     
     //load default config if is first launch
@@ -231,7 +245,10 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
-    [self onControlPanelSelected];
+    // Menu bar apps (LSUIElement) should only open dashboard if user explicitly enabled Dock icon
+    if (vShowIconOnDock && !flag) {
+        [self onControlPanelSelected];
+    }
     return YES;
 }
 
@@ -380,9 +397,16 @@ extern bool convertToolDontAlertWhenCompleted;
             appPath = @"/Applications/MacVietKey.app";
         }
         
+        NSString *binPath = [appPath stringByAppendingPathComponent:@"Contents/MacOS/MacVietKey"];
+        NSArray *args;
+        if ([fm fileExistsAtPath:binPath]) {
+            args = @[binPath];
+        } else {
+            args = @[@"/usr/bin/open", @"-g", @"-j", @"-a", appPath];
+        }
         NSDictionary *dict = @{
             @"Label": @"com.vuahethong.vuaoffice.macvietkey",
-            @"ProgramArguments": @[@"/usr/bin/open", @"-a", appPath],
+            @"ProgramArguments": args,
             @"RunAtLoad": @YES,
             @"ProcessType": @"Interactive"
         };
