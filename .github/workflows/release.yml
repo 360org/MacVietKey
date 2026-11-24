@@ -48,3 +48,5 @@ jobs:
             *(Các gói cài đặt macOS, Windows và Linux được tự động biên dịch và gắn đính kèm vào bản phát hành này từ runner tương ứng).*
           draft: false
           prerelease: false
+          files: |
+            release/*
