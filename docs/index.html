@@ -590,6 +590,44 @@
       .features-grid, .stats-bar, .shortcuts-grid, .footer-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
+
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .top-bar { font-size: 12px; padding: 8px 12px; line-height: 1.4; }
+      .nav-wrap { height: auto; padding: 12px 0; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+      .brand { font-size: 18px; gap: 8px; }
+      .brand img { width: 30px; height: 30px; }
+      .brand-badge { font-size: 10px; padding: 2px 6px; }
+      .btn-header { padding: 6px 12px; font-size: 12px; }
+      .hero { padding: 44px 0 32px; }
+      .hero-badge { font-size: 12px; padding: 6px 12px; white-space: normal; line-height: 1.4; text-align: center; margin-bottom: 18px; }
+      .hero h1 { font-size: 28px; line-height: 1.25; margin-bottom: 14px; }
+      .hero p { font-size: 15px; margin-bottom: 24px; line-height: 1.6; }
+      .hero-actions { flex-direction: column; width: 100%; gap: 12px; }
+      .hero-actions a { width: 100%; justify-content: center; text-align: center; font-size: 15px; padding: 14px 16px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 30px; }
+      .stat-card { padding: 14px 10px; }
+      .stat-number { font-size: 22px; }
+      .stat-label { font-size: 12px; }
+      .section { padding: 48px 0; }
+      .section-title { margin-bottom: 32px; }
+      .section-title h2 { font-size: 26px; }
+      .section-title p { font-size: 14px; }
+      .features-grid { grid-template-columns: 1fr; gap: 14px; }
+      .feature-card { padding: 20px 18px; }
+      .shortcuts-grid { grid-template-columns: 1fr; gap: 10px; }
+      .shortcut-card { padding: 14px 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .step-list { gap: 14px; }
+      .step-item { padding: 16px; gap: 12px; flex-direction: column; align-items: flex-start; }
+      .step-number { width: 32px; height: 32px; font-size: 15px; }
+      .faq-list { gap: 12px; }
+      .faq-item { padding: 18px 16px; }
+      .faq-item h3 { font-size: 16px; }
+      .faq-item p { font-size: 14px; }
+      th, td { padding: 12px 10px; font-size: 13px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -635,7 +673,7 @@
       <div class="hero-actions">
         <a href="https://github.com/360org/MacVietKey/releases/download/v2.2.2/MacVietKey-v2.2.2-macOS.dmg" class="btn-primary">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Tải MacVietKey Cho macOS (.dmg)
+          Tải MacVietKey (.dmg) — Apple Silicon &amp; Intel
         </a>
         <a href="https://github.com/360org/MacVietKey/releases/download/v2.2.2/MacVietKey-v2.2.2-macOS.zip" class="btn-secondary">
           <span>📦</span> Tải Bản Nén (.zip)
@@ -643,6 +681,13 @@
         <a href="#install" class="btn-secondary">
           <span>🍺</span> Cài Đặt Qua Homebrew
         </a>
+      </div>
+      <div style="margin-top: 14px; font-size: 13px; color: #94a3b8; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <span>🍏 Apple Silicon M1/M2/M3/M4 (Native)</span>
+        <span>•</span>
+        <span>🖥️ Mac Intel 64-bit</span>
+        <span>•</span>
+        <span>⚡ macOS 11 &rarr; macOS 15 Sequoia</span>
       </div>
 
       <!-- Stats Bar -->

@@ -1,10 +1,13 @@
 {
 	"latestVersion": {
 		"versionName": "2.2.2",
-		"versionCode": 52
+		"versionCode": 52,
+		"downloadUrl": "https://github.com/360org/MacVietKey/releases/download/v2.2.2/MacVietKey-v2.2.2-macOS.dmg",
+		"releaseUrl": "https://github.com/360org/MacVietKey/releases/latest"
 	},
 	"latestWinVersion": {
 		"versionName": "2.2.2",
-		"versionCode": 52
+		"versionCode": 52,
+		"downloadUrl": "https://github.com/360org/MacVietKey/releases/download/v2.2.2/MacVietKey-v2.2.2-windows-x64.zip"
 	}
 }

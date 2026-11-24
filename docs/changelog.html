@@ -172,6 +172,108 @@
       font-size: 14px;
       color: var(--text-muted);
     }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+      .nav-wrap {
+        height: auto;
+        padding: 12px 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .brand {
+        font-size: 18px;
+        gap: 8px;
+      }
+      .brand img {
+        width: 28px;
+        height: 28px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-links a {
+        margin-left: 0;
+        font-size: 13px;
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        white-space: nowrap;
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+      }
+      .page-header {
+        padding: 32px 0 24px;
+        margin-bottom: 28px;
+      }
+      .page-header h1 {
+        font-size: 26px;
+        line-height: 1.25;
+      }
+      .page-header p {
+        font-size: 15px;
+      }
+      .timeline {
+        gap: 24px;
+        margin-bottom: 50px;
+      }
+      .release-card {
+        padding: 18px 16px;
+        border-radius: 12px;
+      }
+      .release-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+      }
+      .version-tag {
+        font-size: 20px;
+        gap: 8px;
+      }
+      .release-date {
+        font-size: 13px;
+      }
+      .changes-list {
+        gap: 10px;
+      }
+      .changes-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .changes-list li span:last-child {
+        width: 100%;
+      }
+      .tag {
+        margin-top: 0;
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 4px;
+      }
+      footer {
+        padding: 30px 0;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 <body>

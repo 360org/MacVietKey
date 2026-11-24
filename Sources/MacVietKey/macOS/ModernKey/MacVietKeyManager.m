@@ -228,9 +228,9 @@ static dispatch_source_t  watchdogTimer = NULL;
 
 +(void)showUpdateMessage:(NSWindow*)parent needUpdating:(BOOL)needUpdating newVersion:(NSString*)versionString {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:(needUpdating ? [NSString stringWithFormat:@"MacVietKey Có phiên bản mới (%@), bạn có muốn cập nhật không?", versionString] : @"Bạn đang dùng phiên bản mới nhất!")];
-    [alert setInformativeText:(needUpdating ? @"Bấm 'Có' để cập nhật MacVietKey." : @"")];
-    
+    [alert setMessageText:(needUpdating ? [NSString stringWithFormat:@"MacVietKey có phiên bản mới (%@), bạn có muốn cập nhật không?", versionString] : @"Bạn đang dùng phiên bản mới nhất!")];
+    [alert setInformativeText:(needUpdating ? @"Bấm 'Có' để tải về và cập nhật MacVietKey ngay lập tức." : @"")];
+
     if (!needUpdating) {
         [alert addButtonWithTitle:@"OK"];
     } else {
@@ -242,37 +242,73 @@ static dispatch_source_t  watchdogTimer = NULL;
         [alert.window setLevel:NSStatusWindowLevel];
         NSModalResponse res = [alert runModal];
         if (res == 1000 && needUpdating) {
-            [self launchUpdateHelper];
+            [self downloadAndInstallUpdate:versionString];
         }
     } else {
         [alert beginSheetModalForWindow:parent completionHandler:^(NSModalResponse returnCode) {
             if (returnCode == 1000 && needUpdating) {
-                [self launchUpdateHelper];
+                [self downloadAndInstallUpdate:versionString];
             }
         }];
     }
 }
 
-+(void)launchUpdateHelper {
-    //check update app has exist or not
-    NSError *copyError = nil;
-    NSString* target = [NSString stringWithFormat:@"%@/MacVietKeyUpdate.app", [self getApplicationSupportFolder]];
-    [[NSFileManager defaultManager] removeItemAtPath:target error:&copyError];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:target]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:[self getApplicationSupportFolder] withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        if (![[NSFileManager defaultManager] copyItemAtPath:[self getUpdateBundlePath] toPath:target error:&copyError]) {
-            NSLog(@"Error on copy");
++(void)downloadAndInstallUpdate:(NSString*)versionString {
+    NSString *dmgUrlString = [NSString stringWithFormat:@"https://github.com/360org/MacVietKey/releases/download/v%@/MacVietKey-v%@-macOS.dmg", versionString, versionString];
+    NSURL *downloadURL = [NSURL URLWithString:dmgUrlString];
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
+    NSString *downloadsDirectory = [paths firstObject];
+    NSString *targetPath = [downloadsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"MacVietKey-v%@-macOS.dmg", versionString]];
+
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+
+    NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:downloadURL completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (!error && (httpResponse.statusCode == 200 || httpResponse.statusCode == 302)) {
+            NSError *fileError = nil;
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+
+            if ([fileManager fileExistsAtPath:targetPath]) {
+                [fileManager removeItemAtPath:targetPath error:nil];
+            }
+
+            [fileManager moveItemAtURL:location toURL:[NSURL fileURLWithPath:targetPath] error:&fileError];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!fileError) {
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:targetPath]];
+
+                    NSAlert *successAlert = [[NSAlert alloc] init];
+                    [successAlert setMessageText:[NSString stringWithFormat:@"Đã tải xong MacVietKey v%@!", versionString]];
+                    [successAlert setInformativeText:@"Tệp đĩa ảo .dmg đã được tải vào thư mục Downloads và tự động mở. Bạn chỉ cần kéo biểu tượng MacVietKey vào thư mục Applications để hoàn tất cập nhật."];
+                    [successAlert addButtonWithTitle:@"Đã hiểu"];
+                    [successAlert runModal];
+                } else {
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/360org/MacVietKey/releases/latest"]];
+                }
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/360org/MacVietKey/releases/latest"]];
+            });
         }
-    }
-    
-    NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-    NSURL *url = [NSURL fileURLWithPath:[workspace fullPathForApplication:target]];
-    NSError *error = nil;
-    NSArray *arguments = [NSArray arrayWithObjects: @"yeah", nil];
-    [workspace launchApplicationAtURL:url options:0 configuration:[NSDictionary dictionaryWithObject:arguments forKey:NSWorkspaceLaunchConfigurationArguments] error:&error];
-    
-    [NSApp terminate:0]; //exit main app
+    }];
+
+    [downloadTask resume];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSAlert *progressAlert = [[NSAlert alloc] init];
+        [progressAlert setMessageText:@"Đang tải bản cập nhật..."];
+        [progressAlert setInformativeText:[NSString stringWithFormat:@"MacVietKey v%@ đang được tải tự động vào thư mục Downloads của bạn. Tệp đĩa ảo cài đặt sẽ tự động mở khi hoàn tất.", versionString]];
+        [progressAlert addButtonWithTitle:@"Đóng"];
+        [progressAlert runModal];
+    });
+}
+
++(void)launchUpdateHelper {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/360org/MacVietKey/releases/latest"]];
 }
 
 +(NSString*)getApplicationSupportFolder {

@@ -1,5 +1,20 @@
 # MacVietKey — Changelog
 
+## v2.2.3 (2026-11-24) — Tự Động Build Apple Silicon Trên GitHub Actions, Khắc Phục Auto Update & Tối Ưu Mobile Docs
+--------------------------------------------------------------------------------------------------------------------
+- [CI/CD] Tự động hoá quy trình biên dịch macOS trên GitHub Actions runner Apple Silicon (`macos-15`):
+  * Biên dịch Universal 2 Binary (`arm64` & `x86_64`) qua `xcodebuild` và kiểm chứng kiến trúc với `lipo -info`.
+  * Đóng gói tự động cả 3 định dạng: `MacVietKey-v...-macOS.dmg` (Universal), `MacVietKey-v...-macOS-arm64.dmg` (Bản tối ưu Native cho Apple Silicon M1/M2/M3/M4) và `MacVietKey-v...-macOS.zip`.
+  * Tuân thủ nghiêm ngặt nguyên tắc Publish Tag & Build: Commit nhánh master chỉ kiểm thử và lưu artifact; chỉ khi push release tag `v*` mới kích hoạt upload bộ cài đặt lên GitHub Release.
+- [AUTO-UPDATE] Tái cấu trúc hoàn toàn cơ chế Tự động kiểm tra và Tải bản cập nhật (Auto Update & Download Update):
+  * Thay thế helper cũ bằng tiến trình tải trực tiếp tệp `.dmg` bản mới nhất vào thư mục Downloads qua `NSURLSessionDownloadTask`.
+  * Tự động mở đĩa ảo cài đặt `.dmg` ngay khi tải xong và thông báo hướng dẫn người dùng kéo thả vào Applications.
+  * Dự phòng fallback mở trang phát hành GitHub Releases chính thức nếu gặp sự cố mạng, loại bỏ hoàn toàn lỗi văng/tắt app đột ngột.
+- [RESPONSIVE] Sửa dứt điểm lỗi hiển thị trên thiết bị di động (Mobile Responsive) cho `https://360org.github.io/MacVietKey`:
+  * `docs/changelog.html`: Bổ sung toàn diện media queries cho mobile (< 640px), sửa lỗi vỡ đôi chữ "Tải Về" trên thanh header, chuyển đổi danh sách thay đổi sang giao diện card từng mục thoáng mắt, không còn bị bóp nghẹt badge tag.
+  * `docs/index.html`: Cân chỉnh lề, font chữ, bảng tính năng, câu hỏi thường gặp và tổ chức lại các nút tải về Hero CTA hỗ trợ đầy đủ nhận diện Apple Silicon và Intel.
+- [VERSION] Cập nhật `version.json` bổ sung trường liên kết tải về `downloadUrl` và `releaseUrl`.
+
 ## v2.2.2 (2026-11-23) — Bản Phát Hành Sửa Dứt Điểm Lỗi Khởi Động & Chạy Ẩn Nền
 -------------------------------------------------------------------------
 - [FIX] Sửa triệt để hiện tượng Bảng điều khiển (Dashboard) tự bật lên màn hình khi mở máy:
