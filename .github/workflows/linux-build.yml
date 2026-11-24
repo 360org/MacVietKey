@@ -11,6 +11,9 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
+
 jobs:
   build-linux:
     name: Ubuntu 22.04 / 24.04 Engine & Package

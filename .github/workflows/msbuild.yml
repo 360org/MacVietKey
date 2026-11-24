@@ -11,6 +11,7 @@ on:
 env:
   SOLUTION_FILE_PATH: .\Sources\MacVietKey\win32\OpenKey
   BUILD_CONFIGURATION: Release
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
 
 permissions:
   contents: write

@@ -419,9 +419,18 @@
 
   <footer>
     <div class="container">
-      &copy; 2026 360 CORP &amp; VUA HỆ THỐNG. MacVietKey Identifier: <code>com.vuahethong.vuaoffice.macvietkey</code>
+      &copy; <span class="current-year">2026</span> 360 CORP &amp; VUA HỆ THỐNG. MacVietKey Identifier: <code>com.vuahethong.vuaoffice.macvietkey</code>
     </div>
   </footer>
 
+  <script>
+    (function() {
+      const currentYear = new Date().getFullYear();
+      document.querySelectorAll('.current-year').forEach(function(el) {
+        el.textContent = currentYear;
+      });
+      document.title = document.title.replace(/202[0-9]/g, currentYear);
+    })();
+  </script>
 </body>
 </html>

@@ -189,7 +189,7 @@
       --border-light: rgba(255, 255, 255, 0.08);
       --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --radius: 14px;
-      --container: 1140px;
+      --container: 1220px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -216,7 +216,7 @@
       font-weight: 600;
       letter-spacing: 0.2px;
     }
-    .top-bar a { color: #fff; text-decoration: underline; margin-left: 8px; font-weight: 700; }
+    .top-bar a { color: #fff; text-decoration: underline; margin-left: 8px; font-weight: 700; white-space: nowrap; }
 
     /* Header */
     header {
@@ -233,14 +233,17 @@
       justify-content: space-between;
       align-items: center;
       height: 72px;
+      gap: 16px;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 20px;
+      gap: 10px;
+      font-size: 19px;
       font-weight: 800;
       color: #fff;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .brand-badge {
       font-size: 11px;
@@ -250,27 +253,43 @@
       padding: 3px 8px;
       border-radius: 6px;
       letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 18px;
+      flex-wrap: nowrap;
     }
     .nav-links a {
       color: var(--text-muted);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .nav-links a:hover { color: #fff; }
     .btn-header {
       background: var(--primary);
       color: #fff !important;
-      padding: 8px 18px;
+      padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .btn-header:hover { background: var(--primary-hover); }
+
+    @media (max-width: 1150px) {
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: 13px; }
+      .brand-badge { display: none; }
+    }
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+    }
 
     /* Hero Section */
     .hero {
@@ -651,12 +670,11 @@
         <a href="#shortcuts">Phím Tắt</a>
         <a href="#comparison">So Sánh</a>
         <a href="#install">Cài Đặt</a>
-        <a href="#faq">Câu Hỏi Thường Gặp</a>
-        <a href="changelog.html">Lịch Sử Cập Nhật</a>
+        <a href="#faq">Hỏi Đáp</a>
+        <a href="changelog.html">Lịch Sử</a>
         <a href="https://github.com/360org/MacVietKey" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://vuaoffice.com" target="_blank" rel="noopener">VuaOffice</a>
       </nav>
-      <a href="https://github.com/360org/MacVietKey/releases/latest" class="btn-header">Tải Về Miễn Phí</a>
+      <a href="#install" class="btn-header">Tải Về Ngay</a>
     </div>
   </header>
 
@@ -664,30 +682,32 @@
   <section class="hero">
     <div class="container">
       <div class="hero-badge">
-        <span>🛡️</span> Bộ Gõ Tiếng Việt Cho macOS Tốt Nhất 2026 (Universal Apple Silicon &amp; Intel)
+        <span>🛡️</span> Bộ Gõ Tiếng Việt Cho macOS Tốt Nhất <span class="current-year">2026</span> (Universal Apple Silicon &amp; Intel)
       </div>
       <h1>Bộ Gõ Tiếng Việt Cho macOS<br><span>VietKey Cho Mac</span> Đỉnh Cao</h1>
       <p>
         <strong>MacVietKey</strong> là bộ gõ tiếng Việt mã nguồn mở thế hệ mới cho macOS kế thừa tinh hoa từ <strong>VietKey</strong>, <strong>OpenKey</strong> và <strong>EVKey</strong>. Tích hợp cơ chế <strong>Watchdog đa tầng</strong> tự động sửa lỗi ngắt phím, triệt tiêu hoàn toàn lỗi gạch chân và hiện tượng lag đơ trên Google Chrome, Spotlight. Tương thích bản địa 100% các dòng chip Apple Silicon (M1, M2, M3, M4) và Mac Intel.
       </p>
-      <div class="hero-actions">
-        <a href="https://github.com/360org/MacVietKey/releases/download/v2.2.2/MacVietKey-v2.2.2-macOS.dmg" class="btn-primary">
+
+      <!-- Dynamic Platform Detection CTA -->
+      <div class="hero-actions" id="hero-actions">
+        <a id="btn-primary-download" href="https://github.com/360org/MacVietKey/releases/download/v2.2.3/MacVietKey-v2.2.3-macOS.dmg" class="btn-primary">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Tải MacVietKey (.dmg) — Apple Silicon &amp; Intel
+          <span id="btn-primary-text">Tải MacVietKey (.dmg)</span>
         </a>
-        <a href="https://github.com/360org/MacVietKey/releases/download/v2.2.2/MacVietKey-v2.2.2-macOS.zip" class="btn-secondary">
-          <span>📦</span> Tải Bản Nén (.zip)
+        <a id="btn-secondary-download" href="https://github.com/360org/MacVietKey/releases/download/v2.2.3/MacVietKey-v2.2.3-macOS-arm64.dmg" class="btn-secondary">
+          <span id="btn-secondary-icon">🍏</span>
+          <span id="btn-secondary-text">Tải Bản Apple Silicon (.dmg)</span>
         </a>
         <a href="#install" class="btn-secondary">
           <span>🍺</span> Cài Đặt Qua Homebrew
         </a>
       </div>
-      <div style="margin-top: 14px; font-size: 13px; color: #94a3b8; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <span>🍏 Apple Silicon M1/M2/M3/M4 (Native)</span>
-        <span>•</span>
-        <span>🖥️ Mac Intel 64-bit</span>
-        <span>•</span>
-        <span>⚡ macOS 11 &rarr; macOS 15 Sequoia</span>
+
+      <!-- Detection feedback badge -->
+      <div id="device-detect-hint" style="margin-top: 14px; font-size: 13px; color: #00ce2c; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+        <span id="device-detect-icon">⚡</span>
+        <span id="device-detect-text">Đang nhận diện thiết bị...</span>
       </div>
 
       <!-- Stats Bar -->
@@ -1013,7 +1033,7 @@
 
       <div class="footer-bottom">
         <div>
-          &copy; 2026 360 CORP &amp; VUA HỆ THỐNG. Bản quyền mã nguồn mở theo giấy phép GPL.
+          &copy; <span class="current-year">2026</span> 360 CORP &amp; VUA HỆ THỐNG. Bản quyền mã nguồn mở theo giấy phép GPL.
         </div>
         <div>
           Mã định danh: <code>com.vuahethong.vuaoffice.macvietkey</code>
@@ -1022,5 +1042,106 @@
     </div>
   </footer>
 
+  <!-- Script tự động phát hiện vi xử lý & cập nhật năm hiện hành -->
+  <script>
+    (function() {
+      // 1. Tự động cập nhật năm hiện tại (2026, 2027, 2028...) trên toàn bộ website
+      const currentYear = new Date().getFullYear();
+      document.querySelectorAll('.current-year').forEach(function(el) {
+        el.textContent = currentYear;
+      });
+      document.title = document.title.replace(/202[0-9]/g, currentYear);
+
+      // 2. Tự động nhận diện thiết bị & Chip (Apple Silicon M-Series vs Intel)
+      function detectClientEnvironment() {
+        const ua = navigator.userAgent || '';
+        const platform = navigator.platform || '';
+        const isMac = /Macintosh|MacIntel|MacPPC|Mac68K/i.test(ua) || /Mac/i.test(platform);
+        const isWindows = /Win/i.test(ua) || /Win/i.test(platform);
+        const isLinux = /Linux/i.test(ua) && !/Android/i.test(ua);
+        let isAppleSilicon = false;
+
+        if (isMac) {
+          try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+              const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+              if (debugInfo) {
+                const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || '';
+                if (/Apple/i.test(renderer) && !/Intel/i.test(renderer)) {
+                  isAppleSilicon = true;
+                } else if (/Intel/i.test(renderer)) {
+                  isAppleSilicon = false;
+                }
+              }
+            }
+          } catch (e) {}
+
+          if (!isAppleSilicon && navigator.maxTouchPoints && navigator.maxTouchPoints > 0) {
+            isAppleSilicon = true;
+          }
+        }
+
+        return { isMac, isAppleSilicon, isWindows, isLinux };
+      }
+
+      const client = detectClientEnvironment();
+      const primaryBtn = document.getElementById('btn-primary-download');
+      const primaryText = document.getElementById('btn-primary-text');
+      const secondaryBtn = document.getElementById('btn-secondary-download');
+      const secondaryIcon = document.getElementById('btn-secondary-icon');
+      const secondaryText = document.getElementById('btn-secondary-text');
+      const detectHint = document.getElementById('device-detect-hint');
+      const detectIcon = document.getElementById('device-detect-icon');
+      const detectText = document.getElementById('device-detect-text');
+
+      const v = 'v2.2.3';
+      const arm64Url = `https://github.com/360org/MacVietKey/releases/download/${v}/MacVietKey-${v}-macOS-arm64.dmg`;
+      const universalUrl = `https://github.com/360org/MacVietKey/releases/download/${v}/MacVietKey-${v}-macOS.dmg`;
+      const winUrl = `https://github.com/360org/MacVietKey/releases/download/${v}/MacVietKey-${v}-windows-x64.zip`;
+      const linuxUrl = `https://github.com/360org/MacVietKey/releases/download/${v}/MacVietKey-${v}-linux-x86_64.tar.gz`;
+
+      if (client.isMac) {
+        if (client.isAppleSilicon) {
+          primaryBtn.href = arm64Url;
+          primaryText.textContent = 'Tải Cho Apple Silicon (M1–M4) (.dmg)';
+          secondaryBtn.href = universalUrl;
+          secondaryIcon.textContent = '🖥️';
+          secondaryText.textContent = 'Tải Bản Mac Intel (.dmg)';
+          detectIcon.textContent = '🍏';
+          detectText.innerHTML = '<strong>Đã nhận diện:</strong> Máy Mac sử dụng chip <strong>Apple Silicon (arm64)</strong> — Đã chọn sẵn bản Native M-Series tối ưu.';
+          detectHint.style.color = '#00ce2c';
+        } else {
+          primaryBtn.href = universalUrl;
+          primaryText.textContent = 'Tải Cho Mac Intel (x86_64) (.dmg)';
+          secondaryBtn.href = arm64Url;
+          secondaryIcon.textContent = '🍏';
+          secondaryText.textContent = 'Tải Bản Apple Silicon (.dmg)';
+          detectIcon.textContent = '🖥️';
+          detectText.innerHTML = '<strong>Đã nhận diện:</strong> Máy Mac sử dụng vi xử lý <strong>Intel (x86_64)</strong> — Đã chọn sẵn bản Universal tương thích.';
+          detectHint.style.color = '#38bdf8';
+        }
+      } else if (client.isWindows) {
+        primaryBtn.href = winUrl;
+        primaryText.textContent = 'Tải MacVietKey Cho Windows (x64) (.zip)';
+        secondaryBtn.href = arm64Url;
+        secondaryIcon.textContent = '🍏';
+        secondaryText.textContent = 'Tải Bản macOS (.dmg)';
+        detectIcon.textContent = '🪟';
+        detectText.innerHTML = '<strong>Đã nhận diện:</strong> Thiết bị <strong>Windows</strong> — Đã chọn sẵn bản x64.';
+        detectHint.style.color = '#38bdf8';
+      } else if (client.isLinux) {
+        primaryBtn.href = linuxUrl;
+        primaryText.textContent = 'Tải MacVietKey Cho Linux (.tar.gz)';
+        secondaryBtn.href = arm64Url;
+        secondaryIcon.textContent = '🍏';
+        secondaryText.textContent = 'Tải Bản macOS (.dmg)';
+        detectIcon.textContent = '🐧';
+        detectText.innerHTML = '<strong>Đã nhận diện:</strong> Thiết bị <strong>Linux</strong> — Đã chọn sẵn bản tarball.';
+        detectHint.style.color = '#38bdf8';
+      }
+    })();
+  </script>
 </body>
 </html>
