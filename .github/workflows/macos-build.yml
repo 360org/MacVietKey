@@ -165,9 +165,7 @@ jobs:
         done
 
         echo "=== 3. Package Universal ZIP ==="
-        cd build_derived/Build/Products/Release
-        zip -r -y -q "../../../build_dist/MacVietKey-${{ env.VERSION }}-macOS.zip" MacVietKey.app
-        cd ../../../
+        (cd build_derived/Build/Products/Release && zip -r -y -q "${GITHUB_WORKSPACE}/build_dist/MacVietKey-${{ env.VERSION }}-macOS.zip" MacVietKey.app)
 
         ls -lh build_dist/
         shasum -a 256 build_dist/*
