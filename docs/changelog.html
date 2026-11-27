@@ -301,12 +301,57 @@
 
     <div class="timeline">
 
+      <!-- Version 2.2.4 -->
+      <article class="release-card">
+        <div class="release-header">
+          <div class="version-tag">
+            <span>v2.2.4</span>
+            <span class="badge-latest">MỚI NHẤT</span>
+          </div>
+          <div class="release-date">Phát hành chính thức: 27 Tháng 11, 2026</div>
+        </div>
+        <ul class="changes-list">
+          <li>
+            <span class="tag tag-fix">AUTO-UPDATE</span>
+            <span><strong>Tự động tải, cài đặt và khởi động lại hoàn chỉnh</strong>: Sửa dứt điểm lỗi bấm 'Có' nhưng ứng dụng không tự cập nhật. Tích hợp <code>MacVietKeyUpdater</code> kèm thanh tiến trình tải thực tế, giải nén <code>ditto</code>, xác thực chữ ký <code>codesign</code>, thay thế an toàn có rollback, xoá <code>com.apple.quarantine</code> và tự mở lại phiên bản mới.</span>
+          </li>
+          <li>
+            <span class="tag tag-fix">TCC</span>
+            <span><strong>Bảo toàn quyền Trợ năng qua mọi lần cập nhật</strong>: Cập nhật CI/CD GitHub Actions nhúng Designated Requirement cố định <code>designated =&gt; identifier "com.vuahethong.vuaoffice.macvietkey"</code> cho cả bản Universal và Apple Silicon.</span>
+          </li>
+          <li>
+            <span class="tag tag-improve">CACHE</span>
+            <span><strong>Chống kẹt kiểm tra bản mới</strong>: Bổ sung chính sách bỏ qua cache cục bộ cho <code>version.json</code> và luôn khôi phục trạng thái nút kiểm tra ngay cả khi mất kết nối mạng.</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Version 2.2.3 -->
+      <article class="release-card">
+        <div class="release-header">
+          <div class="version-tag">
+            <span>v2.2.3</span>
+          </div>
+          <div class="release-date">Phát hành chính thức: 24 Tháng 11, 2026</div>
+        </div>
+        <ul class="changes-list">
+          <li>
+            <span class="tag tag-new">CI/CD</span>
+            <span><strong>Tự động build Apple Silicon trên macOS 15</strong>: Đóng gói song song bản <code>MacVietKey-v2.2.3-macOS-arm64.dmg</code> (tối ưu chip M1–M4) và bản Universal, tương thích ngược từ macOS 11 Big Sur / Sonoma 14.5.</span>
+          </li>
+          <li>
+            <span class="tag tag-improve">MOBILE</span>
+            <span><strong>Tối ưu giao diện di động &amp; phát hiện chip tự động</strong>: Sửa lỗi responsive trên màn hình nhỏ và tự động gợi ý đúng bộ cài Apple Silicon hoặc Intel trên trang chủ.</span>
+          </li>
+        </ul>
+      </article>
+
       <!-- Version 2.1.1 -->
       <article class="release-card">
         <div class="release-header">
           <div class="version-tag">
             <span>v2.2.2</span>
-            <span class="badge-latest">MỚI NHẤT</span>
+            
           </div>
           <div class="release-date">Phát hành chính thức: 20 Tháng 11, 2026</div>
         </div>

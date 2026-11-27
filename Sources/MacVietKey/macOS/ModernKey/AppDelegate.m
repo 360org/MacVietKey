@@ -242,6 +242,18 @@ extern bool convertToolDontAlertWhenCompleted;
     //correct run on startup
     NSInteger val = [[NSUserDefaults standardUserDefaults] integerForKey:@"RunOnStartup"];
     [appDelegate setRunOnStartup:val];
+
+    // Show post-update confirmation if just auto-updated
+    NSString *justUpdatedVer = [[NSUserDefaults standardUserDefaults] stringForKey:@"JustUpdatedToVersion"];
+    if (justUpdatedVer && justUpdatedVer.length > 0) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"JustUpdatedToVersion"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MacVietKeyManager showMessage:nil
+                                   message:[NSString stringWithFormat:@"MacVietKey đã cập nhật thành công lên v%@!", justUpdatedVer]
+                                    subMsg:@"Phiên bản mới đã được tự động cài đặt và kích hoạt."];
+        });
+    }
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {

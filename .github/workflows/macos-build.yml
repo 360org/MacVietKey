@@ -29,7 +29,7 @@ jobs:
         if [[ "${{ github.ref }}" == refs/tags/* ]]; then
           echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         else
-          echo "VERSION=v2.2.3" >> $GITHUB_ENV
+          echo "VERSION=v2.2.4" >> $GITHUB_ENV
         fi
 
     - name: Build & Run Vietnamese Engine Test Suite
@@ -93,7 +93,7 @@ jobs:
         lipo -info "${BINARY_PATH}"
 
         echo "=== Ad-hoc Codesigning ==="
-        codesign --force --deep --sign - "${APP_PATH}"
+        codesign --force --deep --sign - -i com.vuahethong.vuaoffice.macvietkey -r='designated => identifier "com.vuahethong.vuaoffice.macvietkey"' "${APP_PATH}"
         codesign -dvvv "${APP_PATH}"
 
     - name: Package DMG and ZIP Release Artifacts
@@ -117,7 +117,7 @@ jobs:
         if lipo -info "${BINARY_FILE}" | grep -q "arm64"; then
           lipo -extract arm64 "${BINARY_FILE}" -output "${BINARY_FILE}.arm64" && mv "${BINARY_FILE}.arm64" "${BINARY_FILE}"
         fi
-        codesign --force --deep --sign - "dmg_arm64/MacVietKey.app"
+        codesign --force --deep --sign - -i com.vuahethong.vuaoffice.macvietkey -r='designated => identifier "com.vuahethong.vuaoffice.macvietkey"' "dmg_arm64/MacVietKey.app"
         ln -s /Applications dmg_arm64/Applications
         hdiutil create -volname "MacVietKey (Apple Silicon)" \
           -srcfolder dmg_arm64 \

@@ -1,5 +1,16 @@
 # MacVietKey — Changelog
 
+## v2.2.4 (2026-11-27) — Tự Động Cập Nhật & Tự Cài Đặt Hoàn Chỉnh (True Auto-Update)
+-----------------------------------------------------------------------------------
+- [AUTO-UPDATE] Sửa dứt điểm lỗi bấm 'Có' khi có bản mới nhưng không tự cài đặt được:
+  * Thay thế cơ chế helper cũ (`MacVietKeyUpdate.app` không tồn tại gây thoát app im lặng) bằng bộ tự động cập nhật tích hợp sẵn `MacVietKeyUpdater`.
+  * Hiển thị cửa sổ tiến trình tải không chặn luồng (`NSPanel` + `NSProgressIndicator` % MB thực tế) hỗ trợ nút Huỷ an toàn.
+  * Tự động tải gói Universal ZIP (`downloadZipUrl` trong `version.json`, dự phòng tự động fallback sang `.dmg` nếu cần), giải nén bằng `ditto -xk`, xoá cờ kiểm dịch `xattr -cr` và xác thực chữ ký `codesign --verify --deep --strict` trước khi cài đặt.
+  * Tự động thay thế ứng dụng đang chạy qua tiến trình tách rời với cơ chế backup & rollback an toàn (hỗ trợ cấp quyền qua AppleScript nếu thư mục Applications bị khoá), rồi tự khởi động lại phiên bản mới kèm thông báo cập nhật thành công.
+  * Khắc phục lỗi `checkNewVersion:` không gọi callback phục hồi nút kiểm tra khi mất mạng và thêm `NSURLRequestReloadIgnoringLocalCacheData` chống cache cũ `version.json`.
+- [CI/CD] Cập nhật `.github/workflows/macos-build.yml` nhúng Designated Requirement cố định (`designated => identifier "com.vuahethong.vuaoffice.macvietkey"`) khi ký ad-hoc để quyền Accessibility không bao giờ bị mất sau khi tự động cập nhật.
+- [VERSION] Đồng bộ `CFBundleVersion` (54), `versionCode` (54), `Info.plist` (bản quyền 360 CORP, category productivity) và bộ cài đặt Universal + Apple Silicon DMG/ZIP.
+
 ## v2.2.3 (2026-11-24) — Tự Động Build Apple Silicon Trên GitHub Actions, Khắc Phục Auto Update & Tối Ưu Mobile Docs
 --------------------------------------------------------------------------------------------------------------------
 - [CI/CD] Tự động hoá quy trình biên dịch macOS trên GitHub Actions runner Apple Silicon (`macos-15`):

@@ -1,5 +1,11 @@
 # MacVietKey Change Log
 
+##### Version 2.2.4: (27/11/2026) — Sửa dứt điểm Auto-Update & Tự cài đặt hoàn chỉnh
+- Sửa lỗi bấm 'Có' khi cập nhật bị thoát ứng dụng im lặng do thiếu `MacVietKeyUpdate.app` hoặc chỉ mở DMG thủ công.
+- Tích hợp bộ tự động cập nhật kèm thanh tiến trình tải %, giải nén `ditto`, kiểm tra chữ ký `codesign`, thay thế an toàn (backup/rollback), xoá cờ kiểm dịch `xattr -cr` và tự khởi động lại phiên bản mới.
+- Nhúng Designated Requirement cố định vào quy trình CI/CD GitHub Actions để bảo toàn quyền Trợ năng sau mỗi lần cập nhật.
+- Đồng bộ `version.json` (`versionCode: 54`, `downloadZipUrl`), `Info.plist` và các gói cài đặt Universal + Apple Silicon.
+
 ##### Version 2.2.2: (23/11/2026) — Sửa dứt điểm lỗi tự bật Bảng điều khiển khi mở máy
 - Sửa triệt để lỗi Bảng điều khiển tự bật lên khi khởi động macOS dù không chọn tùy chọn này.
 - Khởi động hoàn toàn ẩn dưới thanh menu thông qua LaunchAgent chạy trực tiếp tệp nhị phân nền.
