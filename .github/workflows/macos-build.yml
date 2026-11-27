@@ -89,7 +89,15 @@ jobs:
             -o "$APP_BUNDLE/Contents/MacOS/MacVietKey"
           cp -R Sources/MacVietKey/macOS/ModernKey/Resources/* "$APP_BUNDLE/Contents/Resources/"
           ibtool --compilation-directory "$APP_BUNDLE/Contents/Resources" Sources/MacVietKey/macOS/ModernKey/Base.lproj/Main.storyboard
-          cp Sources/MacVietKey/macOS/ModernKey/Info.plist "$APP_BUNDLE/Contents/Info.plist"
+          VER_NUM="${VERSION#v}"
+          sed -e 's/\$(EXECUTABLE_NAME)/MacVietKey/g' \
+              -e 's/\$(PRODUCT_NAME)/MacVietKey/g' \
+              -e 's/\$(PRODUCT_BUNDLE_IDENTIFIER)/com.vuahethong.vuaoffice.macvietkey/g' \
+              -e "s/\$(MARKETING_VERSION)/${VER_NUM}/g" \
+              -e 's/\$(CURRENT_PROJECT_VERSION)/54/g' \
+              -e 's/\$(MACOSX_DEPLOYMENT_TARGET)/11.0/g' \
+              -e 's/\$(DEVELOPMENT_LANGUAGE)/vi/g' \
+              Sources/MacVietKey/macOS/ModernKey/Info.plist > "$APP_BUNDLE/Contents/Info.plist"
           printf "APPL????" > "$APP_BUNDLE/Contents/PkgInfo"
         fi
 
@@ -127,10 +135,15 @@ jobs:
         mkdir -p dmg_universal
         cp -R "${APP_PATH}" dmg_universal/
         ln -s /Applications dmg_universal/Applications
-        hdiutil create -volname "MacVietKey" \
-          -srcfolder dmg_universal \
-          -ov -format UDZO \
-          "build_dist/MacVietKey-${{ env.VERSION }}-macOS.dmg"
+        touch dmg_universal/.metadata_never_index
+        for attempt in 1 2 3 4 5; do
+          hdiutil create -volname "MacVietKey" \
+            -srcfolder dmg_universal \
+            -ov -format UDZO \
+            "build_dist/MacVietKey-${{ env.VERSION }}-macOS.dmg" && break
+          echo "hdiutil retry $attempt..."
+          sleep 3
+        done
 
         echo "=== 2. Package Apple Silicon (arm64 Native) DMG ==="
         mkdir -p dmg_arm64
@@ -141,10 +154,15 @@ jobs:
         fi
         codesign --force --deep --sign - -i com.vuahethong.vuaoffice.macvietkey -r='designated => identifier "com.vuahethong.vuaoffice.macvietkey"' "dmg_arm64/MacVietKey.app"
         ln -s /Applications dmg_arm64/Applications
-        hdiutil create -volname "MacVietKey (Apple Silicon)" \
-          -srcfolder dmg_arm64 \
-          -ov -format UDZO \
-          "build_dist/MacVietKey-${{ env.VERSION }}-macOS-arm64.dmg"
+        touch dmg_arm64/.metadata_never_index
+        for attempt in 1 2 3 4 5; do
+          hdiutil create -volname "MacVietKey (Apple Silicon)" \
+            -srcfolder dmg_arm64 \
+            -ov -format UDZO \
+            "build_dist/MacVietKey-${{ env.VERSION }}-macOS-arm64.dmg" && break
+          echo "hdiutil arm64 retry $attempt..."
+          sleep 3
+        done
 
         echo "=== 3. Package Universal ZIP ==="
         cd build_derived/Build/Products/Release
