@@ -47,40 +47,63 @@ jobs:
         file tests/test_runner
         lipo -info tests/test_runner
 
-    - name: Build MacVietKey Xcode Project (Universal 2 Binary)
+    - name: Build MacVietKey App Bundle (Universal 2 Binary)
       run: |
-        xcodebuild -project Sources/MacVietKey/macOS/MacVietKey.xcodeproj \
+        mkdir -p build_derived/Build/Products/Release
+        if xcodebuild -project Sources/MacVietKey/macOS/MacVietKey.xcodeproj \
           -scheme MacVietKey \
           -configuration Release \
           -derivedDataPath build_derived \
           -destination 'generic/platform=macOS' \
           ARCHS="arm64 x86_64" \
           ONLY_ACTIVE_ARCH=NO \
-          build \
+          MACOSX_DEPLOYMENT_TARGET=11.0 \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO || \
-        xcodebuild -project Sources/MacVietKey/macOS/MacVietKey.xcodeproj \
-          -target MacVietKey \
-          -configuration Release \
-          -derivedDataPath build_derived \
-          ARCHS="arm64 x86_64" \
-          ONLY_ACTIVE_ARCH=NO \
-          build \
-          CODE_SIGN_IDENTITY="" \
-          CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_ALLOWED=NO \
+          DEVELOPMENT_TEAM="" \
+          build; then
+          FOUND_APP=$(find build_derived/Build/Products/Release -maxdepth 1 -name "*.app" | head -n 1)
+          if [ -n "$FOUND_APP" ] && [ "$FOUND_APP" != "build_derived/Build/Products/Release/MacVietKey.app" ]; then
+            cp -R "$FOUND_APP" "build_derived/Build/Products/Release/MacVietKey.app"
+          fi
+        else
+          echo "xcodebuild fallback: compiling Universal 2 Binary directly with clang/ibtool..."
+          APP_BUNDLE="build_derived/Build/Products/Release/MacVietKey.app"
+          rm -rf "$APP_BUNDLE"
+          mkdir -p "$APP_BUNDLE/Contents/MacOS" "$APP_BUNDLE/Contents/Resources"
+          INC="-I Sources/MacVietKey/macOS/ModernKey -I Sources/MacVietKey/engine"
+          mkdir -p /tmp/mvk_objs
+          for f in Sources/MacVietKey/macOS/ModernKey/*.m; do
+            clang -arch arm64 -arch x86_64 -fobjc-arc -mmacosx-version-min=11.0 -Wno-deprecated-declarations $INC -c "$f" -o "/tmp/mvk_objs/$(basename "$f").o"
+          done
+          for f in Sources/MacVietKey/macOS/ModernKey/*.mm; do
+            clang++ -std=c++14 -arch arm64 -arch x86_64 -fobjc-arc -mmacosx-version-min=11.0 -Wno-deprecated-declarations $INC -c "$f" -o "/tmp/mvk_objs/$(basename "$f").o"
+          done
+          for f in Sources/MacVietKey/engine/*.cpp; do
+            clang++ -std=c++14 -arch arm64 -arch x86_64 -mmacosx-version-min=11.0 -I Sources/MacVietKey/engine -c "$f" -o "/tmp/mvk_objs/$(basename "$f").o"
+          done
+          clang++ -std=c++14 -arch arm64 -arch x86_64 -mmacosx-version-min=11.0 /tmp/mvk_objs/*.o \
+            -framework Cocoa -framework Carbon -framework AppKit -framework Foundation \
+            -framework CoreGraphics -framework ApplicationServices -framework ServiceManagement \
+            -o "$APP_BUNDLE/Contents/MacOS/MacVietKey"
+          cp -R Sources/MacVietKey/macOS/ModernKey/Resources/* "$APP_BUNDLE/Contents/Resources/"
+          ibtool --compilation-directory "$APP_BUNDLE/Contents/Resources" Sources/MacVietKey/macOS/ModernKey/Base.lproj/Main.storyboard
+          cp Sources/MacVietKey/macOS/ModernKey/Info.plist "$APP_BUNDLE/Contents/Info.plist"
+          printf "APPL????" > "$APP_BUNDLE/Contents/PkgInfo"
+        fi
 
-        FOUND_APP=$(find build_derived/Build/Products/Release -maxdepth 1 -name "*.app" | head -n 1)
-        if [ -z "$FOUND_APP" ]; then
-          echo "No app found in Products/Release, scanning entire build_derived..."
-          FOUND_APP=$(find build_derived -name "*.app" | grep -v "Helper" | head -n 1)
-        fi
-        echo "Found app at: $FOUND_APP"
-        mkdir -p build_derived/Build/Products/Release
-        if [ "$FOUND_APP" != "build_derived/Build/Products/Release/MacVietKey.app" ]; then
-          cp -R "$FOUND_APP" "build_derived/Build/Products/Release/MacVietKey.app"
-        fi
+        # Build & embed MacVietKeyHelper.app into Contents/Library/LoginItems
+        APP_BUNDLE="build_derived/Build/Products/Release/MacVietKey.app"
+        HELPER_BUNDLE="$APP_BUNDLE/Contents/Library/LoginItems/MacVietKeyHelper.app"
+        mkdir -p "$HELPER_BUNDLE/Contents/MacOS"
+        clang -arch arm64 -arch x86_64 -fobjc-arc -mmacosx-version-min=11.0 -Wno-deprecated-declarations \
+          Sources/MacVietKey/macOS/MacVietKeyHelper/main.m \
+          Sources/MacVietKey/macOS/MacVietKeyHelper/AppDelegate.m \
+          -framework Cocoa -framework Foundation -framework AppKit \
+          -o "$HELPER_BUNDLE/Contents/MacOS/MacVietKeyHelper"
+        cp Sources/MacVietKey/macOS/MacVietKeyHelper/Info.plist "$HELPER_BUNDLE/Contents/Info.plist"
+        codesign --force --deep --sign - -i com.vuahethong.vuaoffice.macvietkey.helper -r='designated => identifier "com.vuahethong.vuaoffice.macvietkey.helper"' "$HELPER_BUNDLE"
 
     - name: Sign & Verify Mach-O Architecture
       run: |
